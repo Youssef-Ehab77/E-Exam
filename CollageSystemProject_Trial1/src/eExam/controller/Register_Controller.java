@@ -8,6 +8,6 @@ public class Register_Controller {
     public Label lab_welcome;
 
     public void print(MouseEvent e){
-        System.out.println("Hello reg");
+        System.out.println("Hello register welcome!!");
     }
 }
