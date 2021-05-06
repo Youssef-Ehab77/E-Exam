@@ -4,10 +4,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Register_Controller">
-    <Label fx:id="lab_welcome" alignment="CENTER" layoutX="154.0" layoutY="14.0" onMouseClicked="#print" prefHeight="65.0" prefWidth="292.0" text="Welcome to register">
+<AnchorPane prefHeight="750.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Register_Controller">
+    <Label alignment="CENTER" layoutX="179.0" layoutY="97.0" prefHeight="65.0" prefWidth="292.0" text="Welcome to register">
         <font>
             <Font size="29.0" />
         </font>
     </Label>
+    <PasswordField fx:id="pf_confirm_password" layoutX="210.0" layoutY="367.0" prefHeight="30.0" prefWidth="250.0" promptText="Confirm Password" />
+    <TextField fx:id="tf_username" layoutX="210.0" layoutY="255.0" prefHeight="30.0" prefWidth="250.0" promptText="Username" />
+    <PasswordField fx:id="pf_password" layoutX="210.0" layoutY="311.0" prefHeight="30.0" prefWidth="250.0" promptText="Password" />
+    <Button fx:id="SignUp_btn" layoutX="295.0" layoutY="421.0" mnemonicParsing="false" onAction="#press_signup" prefHeight="41.0" prefWidth="80.0" text="SignUp">
+        <font>
+            <Font size="15.0" />
+        </font>
+    </Button>
+   <Label fx:id="lbl_error" alignment="CENTER" layoutX="141.0" layoutY="196.0" prefHeight="30.0" prefWidth="368.0" textAlignment="CENTER" textFill="#f80808">
+      <font>
+         <Font size="17.0" />
+      </font>
+   </Label>
+   <Button fx:id="btn_back_to_login" layoutX="434.0" layoutY="593.0" mnemonicParsing="false" onAction="#press_back_to_login" prefHeight="42.0" prefWidth="161.0" text="Back To Login Page">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Button>
 </AnchorPane>
