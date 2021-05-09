@@ -28,7 +28,7 @@ public class Register_Controller {
     @FXML
     private PasswordField pf_password;
     @FXML
-    private Button SignUp_btn;
+    private Button btn_signup;
 
 
     public void press_signup(ActionEvent e) throws SQLException {

@@ -15,7 +15,11 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/WelcomePage.fxml")));
         primaryStage.setTitle("System");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.centerOnScreen();
+
+
     }
 
 
