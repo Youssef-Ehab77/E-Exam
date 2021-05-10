@@ -1,6 +1,7 @@
 package eExam.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,10 +14,14 @@ import java.util.Objects;
 
 public class Welcome_Controller {
 
-    public Button btn_professor;
-    public Button btn_Student;
+    @FXML
+    private Button btn_professor;
+    @FXML
+    private Button btn_Student;
+    Login_Controller lc = new Login_Controller();
 
     public void press_professor(ActionEvent e) throws IOException {
+        lc.userType = "professor";
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -24,6 +29,7 @@ public class Welcome_Controller {
     }
 
     public void press_student(ActionEvent e) throws IOException {
+        lc.userType = "student";
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Student.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

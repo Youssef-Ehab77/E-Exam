@@ -18,6 +18,7 @@ import java.util.Objects;
 
 public class Login_Controller {
 
+    public String userType;
     @FXML
     private Label lbl_errormsg;
     @FXML
