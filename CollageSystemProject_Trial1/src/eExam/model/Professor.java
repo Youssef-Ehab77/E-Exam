@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Professor {
 
-    private ArrayList<Subject> subjects = new ArrayList<>();
+    private ArrayList<String> subjects = new ArrayList<>();
     private String name;
     private String password;
-    private String ID;
+    private int ID;
     private boolean admin;
 
     //Admin
 
 
-    public void addSubject(Subject subject) {
+    public void addSubject(String subject) {
         this.subjects.add(subject);
     }
 
@@ -33,11 +33,11 @@ public class Professor {
         this.password = password;
     }
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -49,11 +49,11 @@ public class Professor {
         this.admin = admin;
     }
 
-    public ArrayList<Subject> getSubjects() {
+    public ArrayList<String> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(ArrayList<Subject> subjects) {
+    public void setSubjects(ArrayList<String> subjects) {
         this.subjects = subjects;
     }
 }

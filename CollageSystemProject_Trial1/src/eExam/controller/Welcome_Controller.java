@@ -26,7 +26,6 @@ public class Welcome_Controller {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);
         userType = "professor";
-        System.out.println(userType);
     }
 
     public void press_student(ActionEvent e) throws IOException {
@@ -35,7 +34,6 @@ public class Welcome_Controller {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);
         userType = "student";
-        System.out.println(userType);
     }
 
 }

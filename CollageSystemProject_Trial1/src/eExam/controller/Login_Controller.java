@@ -3,13 +3,14 @@ package eExam.controller;
 import eExam.model.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,7 +43,6 @@ public class Login_Controller {
      * If the username or password are wrong or empty we show an error message
      * to the user.
      */
-
     public void press_login(ActionEvent event) throws IOException, SQLException {
         String name = tf_username.getText();
         String password = pf_password.getText();
@@ -52,14 +52,15 @@ public class Login_Controller {
             boolean loggedIn = dbc.check_login(name, password);
             if (!loggedIn) {
                 lbl_errormsg.setText("Wrong Username or Password!");
+                displayMessage();
             } else if (loggedIn && Welcome_Controller.userType.equals("student")) {
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/HomePage.fxml")));
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
             } else {
-                Professor_HomePage_Controller.name = name;
-                Professor_HomePage_Controller.password = password;
+                Professor_HomePage_Controller.professor.setName(name);
+                Professor_HomePage_Controller.professor.setPassword(password);
 
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
                 Scene scene = new Scene(root);
@@ -70,6 +71,7 @@ public class Login_Controller {
     }
 
 
+    //here we call this method to change the scene to the register page
     public void press_register(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Register.fxml")));
         Scene scene = new Scene(root);
@@ -77,11 +79,20 @@ public class Login_Controller {
         stage.setScene(scene);
     }
 
+    //here this method returns us to the welcome page
     public void press_home(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/WelcomePage.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);
+    }
+
+    public void displayMessage() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Wrong Username or Password!");
+        alert.showAndWait();
     }
 
 

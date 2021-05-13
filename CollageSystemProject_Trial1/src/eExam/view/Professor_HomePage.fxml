@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@styles.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Professor_HomePage_Controller">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color:  #127db3;"
+            stylesheets="@css/Buttons_HomePage.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="eExam.controller.Professor_HomePage_Controller">
     <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-</TabPane>
+    <Label fx:id="lbl_welcome" alignment="CENTER" layoutX="187.0" layoutY="14.0" lineSpacing="10.0" prefHeight="60.0"
+           prefWidth="625.0" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+        <font>
+            <Font name="Bookman Old Style Bold" size="38.0"/>
+        </font>
+    </Label>
+
+</AnchorPane>
