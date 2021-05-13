@@ -53,4 +53,9 @@
             <Font name="Baskerville Old Face" size="87.0" />
         </font>
     </Label>
+   <Button fx:id="btn_home" layoutX="893.0" mnemonicParsing="false" onAction="#press_home" prefHeight="43.0" prefWidth="106.0" style="-fx-background-color: WHITE;" text="Home" textAlignment="CENTER">
+      <font>
+         <Font name="System Bold" size="21.0" />
+      </font>
+   </Button>
 </AnchorPane>

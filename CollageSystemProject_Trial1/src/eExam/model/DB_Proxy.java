@@ -9,7 +9,8 @@ public class DB_Proxy implements DB {
     }
 
     @Override
-    public int add_user(String name, String password) throws SQLException {
+    public int add_user(String name, String password, String gender, String dob) throws SQLException {
         return 0;
     }
+
 }

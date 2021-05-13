@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Login_Controller">
-   <children>
-      <Label alignment="CENTER" layoutX="139.0" layoutY="24.0" prefHeight="91.0" prefWidth="322.0" text="HomePage" textAlignment="CENTER">
-         <font>
-            <Font size="64.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: LIGHTBLUE;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Login_Controller">
+    <children>
+        <Label alignment="CENTER" layoutX="339.0" layoutY="36.0" prefHeight="91.0" prefWidth="322.0" text="HomePage" textAlignment="CENTER">
+            <font>
+                <Font size="64.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>
