@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -46,9 +45,8 @@ public class Login_Controller {
     public void press_login(ActionEvent event) throws IOException, SQLException {
         String name = tf_username.getText();
         String password = pf_password.getText();
-
         if (!name.equals("") && !password.equals("")) {
-            DBConnection dbc = new DBConnection();
+            DBConnection dbc = DBConnection.getInstance();
             boolean loggedIn = dbc.check_login(name, password);
             if (!loggedIn) {
                 lbl_errormsg.setText("Wrong Username or Password!");
@@ -61,7 +59,6 @@ public class Login_Controller {
             } else {
                 Professor_HomePage_Controller.professor.setName(name);
                 Professor_HomePage_Controller.professor.setPassword(password);
-
                 Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -94,6 +91,7 @@ public class Login_Controller {
         alert.setContentText("Wrong Username or Password!");
         alert.showAndWait();
     }
+
 
 
 }

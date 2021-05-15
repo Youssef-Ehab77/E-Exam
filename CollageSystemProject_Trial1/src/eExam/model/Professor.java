@@ -56,4 +56,12 @@ public class Professor {
     public void setSubjects(ArrayList<String> subjects) {
         this.subjects = subjects;
     }
+
+    public void logout() {
+        subjects.clear();
+        admin = false;
+        name = null;
+        password = null;
+        ID = 0;
+    }
 }

@@ -41,7 +41,7 @@ public class Register_Controller {
         String dob = date_date_of_birth.getValue().toString();
 
         if (password.equals(confirmPassword) && !username.equals("")) {
-            DBConnection db = new DBConnection();
+            DBConnection db = DBConnection.getInstance();
             int value = db.add_user(username, password, genderType, dob);
             if (value != 0) {
                 lbl_error.setText("Done!");
