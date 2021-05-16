@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -68,7 +67,6 @@ public class Professor_Subject_Controller {
             db.get_students_in_subject(Professor_HomePage_Controller.professor.getID(), subjectName);
         }
         table.setItems(ol);
-
     }
 
     public void selected_student(MouseEvent event) {
@@ -88,9 +86,17 @@ public class Professor_Subject_Controller {
         displayMessage();
     }
 
+    public void make_an_exam(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Make_An_Exam.fxml")));
+        assert root != null;
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+    }
+
     public void navigation_handler(ActionEvent e) throws IOException {
         String clicked = ((Button) e.getSource()).getText();
-        Parent root = null;
+        Parent root;
 
         if (clicked.equals("Home")) {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
@@ -98,7 +104,7 @@ public class Professor_Subject_Controller {
         } else if (clicked.equals("Logout")) {
             ol.clear();
             Professor_HomePage_Controller.professor.logout();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
         } else {
             ol.clear();
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));

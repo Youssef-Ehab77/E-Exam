@@ -21,7 +21,7 @@ public class Welcome_Controller {
     public static String userType;
 
     public void press_professor(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -29,7 +29,7 @@ public class Welcome_Controller {
     }
 
     public void press_student(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Student.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Login.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);

@@ -93,17 +93,17 @@ public class Professor_HomePage_Controller {
 
     public void navigation_handler(ActionEvent e) throws IOException {
         String clicked = ((Button) e.getSource()).getText();
-        Parent root;
+        Parent r;
         if (clicked.equals("Home")) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
+            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
         } else if (clicked.equals("Logout")) {
             professor.logout();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
+            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
         } else {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
+            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
         }
-        assert root != null;
-        Scene scene = new Scene(root);
+        assert r != null;
+        Scene scene = new Scene(r);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }

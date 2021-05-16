@@ -55,8 +55,8 @@ public class Register_Controller {
     public void press_back_to_login(ActionEvent e) throws IOException {
         Parent root;
         if (Welcome_Controller.userType.equals("student")) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Student.fxml")));
-        } else root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Login.fxml")));
+        } else root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(scene);

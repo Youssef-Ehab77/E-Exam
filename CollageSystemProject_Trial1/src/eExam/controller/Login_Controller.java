@@ -52,7 +52,7 @@ public class Login_Controller {
                 lbl_errormsg.setText("Wrong Username or Password!");
                 displayMessage();
             } else if (loggedIn && Welcome_Controller.userType.equals("student")) {
-                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/HomePage.fxml")));
+                Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_HomePage.fxml")));
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
