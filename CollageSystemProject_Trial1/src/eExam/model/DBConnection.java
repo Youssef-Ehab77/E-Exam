@@ -1,15 +1,14 @@
 package eExam.model;
 
-import eExam.controller.Professor_HomePage_Controller;
+import eExam.controller.Multipurpose;
 import eExam.controller.Professor_Subject_Controller;
-import eExam.controller.Welcome_Controller;
 
 import java.sql.*;
 
 public class DBConnection implements DB {
 
     private static final DBConnection db = new DBConnection();
-    private Connection con;
+    private final Multipurpose m = Multipurpose.getInstance();
     private Statement stmt;
 
     /**
@@ -21,7 +20,7 @@ public class DBConnection implements DB {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             //local db
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "gamd1998");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "gamd1998");
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "gamd1998");
 
             //AWS cloud db
@@ -50,7 +49,7 @@ public class DBConnection implements DB {
      */
     public boolean check_login(String name, String password) throws SQLException {
         String sql;
-        if (Welcome_Controller.userType.equals("student")) {
+        if (Multipurpose.userType.equals("student")) {
             sql = "select id from student where name = '" + name + "' and password = '" + password + "'";
         } else
             sql = "select  id from professor where name = '" + name + "' and password='" + password + "'";
@@ -59,9 +58,9 @@ public class DBConnection implements DB {
         if (!rs.isBeforeFirst()) {
             return false;
         } else {
-            if (Welcome_Controller.userType.equals("professor")) {
+            if (Multipurpose.userType.equals("professor")) {
                 rs.next();
-                Professor_HomePage_Controller.professor.setID(rs.getInt(1));
+                Multipurpose.professor.setID(rs.getInt(1));
             } else {
                 rs.next();
                 //  Professor_HomePage_Controller.professor.setID(rs.getInt(1));
@@ -82,7 +81,7 @@ public class DBConnection implements DB {
     @Override
     public int add_user(String name, String password, String gender, String dob) throws SQLException {
         String sql;
-        if (Welcome_Controller.userType.equals("student")) {
+        if (Multipurpose.userType.equals("student")) {
             sql = "insert into student(name,password,gender,birth_date) values('" + name + "'," +
                     "'" + password + "','" + gender + "','" + dob + "')";
         } else sql = "insert into professor(name,password,gender,birth_date) values('" + name + "'," +
@@ -92,23 +91,21 @@ public class DBConnection implements DB {
     }
 
     /**
-     * @param name     username
-     * @param password password
+     * @param id user id
      * @throws SQLException We get all the subjects that the professor teaches and add it to the Professor's
      *                      subject Arraylist by calling the static object from the professor home page controller.
      */
 
-    public void get_professor_subjects(String name, String password) throws SQLException {
+    public void get_professor_subjects(int id) throws SQLException {
         String sql = "select name\n" +
                 "from professor_subject ps\n" +
                 "         join subject s\n" +
                 "              on ps.subject_id = id\n" +
-                "where professor_id =\n" +
-                "      (select id from professor where name ='" + name + "' and password = '" + password + "')";
+                "where professor_id =\n " + id;
         ResultSet rs = stmt.executeQuery(sql);
 
         while (rs.next()) {
-            Professor_HomePage_Controller.professor.addSubject(rs.getString(1));
+            Multipurpose.professor.addSubject(rs.getString(1));
         }
     }
 

@@ -1,34 +1,29 @@
 package eExam.controller;
 
-import eExam.model.DBConnection;
-import eExam.model.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
 /**
- * We create two objects 1. DBConnection  2. Professor.
- * We get the professor name from the getter in professor class.
- * And then we call get_professor_subjects from the DBConnection class
- * and in the method it gets all the subjects from the database by the professor
- * id and put them by calling the professor setter method throw the static
- * object we created here to set all the subjects in an ArrayList.
+ * @Method initialize
+ * we check if the professor's subject arrayList is empty, if so we get them form the database
+ * by professor's id and put them in the ArrayList.
  * <p>
- * The for loop:
+ * In The for loop:
  * we creat buttons manually for the Professor_HomePage, the number of buttons equal to the number
  * of subjects that the professor teach. (we call the subjects from the arraylist we implemented earlier).
  * We have Buttons_HomePage.css file that added the design to the buttons so we dont have to write all
- * the frontend work here.
+ * the frontend design work here.
  * <p>
  * We set the button text and id equals to the subject and we added a
  * setOnAction function on all the buttons call the function change_scene to change the scene
@@ -42,13 +37,12 @@ import java.util.Objects;
  * to put them on the screen.
  * <p>
  * Last of all the navigation_handler is the method that controllers the navigation between the scenes ('home page',
- * 'logout', ' go back' ,etc).
+ * 'logout', 'go back', etc).
  */
 
 public class Professor_HomePage_Controller {
 
-    public static Professor professor = new Professor();
-    private final DBConnection db = DBConnection.getInstance();
+    private final Multipurpose m = Multipurpose.getInstance();
     @FXML
     private AnchorPane root;
     @FXML
@@ -56,11 +50,11 @@ public class Professor_HomePage_Controller {
     private int x_axis = 25, y_axis = 100;
 
     public void initialize() throws SQLException, IOException {
-        lbl_welcome.setText("Welcome Professor " + professor.getName());
-        if (professor.getSubjects().isEmpty()) {
-            db.get_professor_subjects(professor.getName(), professor.getPassword());
+        lbl_welcome.setText("Welcome Professor " + Multipurpose.professor.getName());
+        if (Multipurpose.professor.getSubjects().isEmpty()) {
+            Multipurpose.db.get_professor_subjects(Multipurpose.professor.getID());
         }
-        for (String subject : professor.getSubjects()) {
+        for (String subject : Multipurpose.professor.getSubjects()) {
             Button btn = new Button();
             btn.setText(subject);
             btn.setId(subject.trim());
@@ -84,7 +78,7 @@ public class Professor_HomePage_Controller {
     }
 
     public void change_scene(Button e) throws IOException {
-        Professor_Subject_Controller.subjectName = e.getText();
+        Multipurpose.subjectName = e.getText();
         Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();
@@ -92,20 +86,7 @@ public class Professor_HomePage_Controller {
     }
 
     public void navigation_handler(ActionEvent e) throws IOException {
-        String clicked = ((Button) e.getSource()).getText();
-        Parent r;
-        if (clicked.equals("Home")) {
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-        } else if (clicked.equals("Logout")) {
-            professor.logout();
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
-        } else {
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-        }
-        assert r != null;
-        Scene scene = new Scene(r);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        m.navigation_handler(e, "Professor_HomePage");
     }
 }
 

@@ -5,12 +5,21 @@ import java.util.HashMap;
 
 public class Exam {
 
+    private static final Exam e = new Exam();
     private String name;
     private String ID;
     private int numberOfQuestions;
     private Time examTime;
-    private final HashMap<String,String> examData = new HashMap<String,String>();
+    private final HashMap<String, String> examData = new HashMap<String, String>();
     private int result;
+
+    private Exam() {
+
+    }
+
+    public static Exam getInstance() {
+        return e;
+    }
 
     public String getName() {
         return name;

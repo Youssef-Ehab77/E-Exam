@@ -1,25 +1,46 @@
 package eExam.controller;
 
-import eExam.model.DBConnection;
 import eExam.model.Student_Subjects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
+
+/**
+ * In this class we are going to make 4 main things:
+ * 1- Show students name,id and grades for the subject that professor clicked in his home page.
+ * 2- He will be able to edit and change his students grades from the table in easy way.
+ * 3- He can make go for a new page to make a new exam for the currently selected subject.
+ * 4- He can show the exams finished or coming.
+ * <p>
+ * The General idea is to connect the table with the class Student_Subject and to make an
+ * ObservableList (A list that enables listeners to track changes when they occur) to carry the required data
+ * from the database.
+ *
+ * @Method initialize
+ * we check that if the ObservableList is empty or not, if it's empty we will go get the data from the database,
+ * if it's not empty we will check if the data in the ObservableList is for the current subject or not, if it's
+ * for the current subject then we will just show it in the table, else we will clear the ObservableList and get
+ * the new data for the new subject from the database.
+ * @Method selected_student
+ * when the user click on a specific user in the table we send the mouse event with the index of the table (row) for
+ * the method, then we fill the text fields with the data from this row so the user will be able to edit/change his data.
+ * @Method update_student_grade
+ * Here when the user click update student button we take the values form the text fields and update it in the database
+ */
 
 public class Professor_Subject_Controller {
+
+    private int index = -1;
+    private final Multipurpose m = Multipurpose.getInstance();
+    public static ObservableList<Student_Subjects> ol = FXCollections.observableArrayList();
     @FXML
     private Label lbl_subject_name;
     @FXML
@@ -35,10 +56,6 @@ public class Professor_Subject_Controller {
     @FXML
     private TableColumn<Student_Subjects, Integer> col_final;
     @FXML
-    private Button btn_make_an_exam;
-    @FXML
-    private Button btn_show_exams;
-    @FXML
     private TextField tf_id;
     @FXML
     private TextField tf_name;
@@ -50,77 +67,55 @@ public class Professor_Subject_Controller {
     private TextField tf_final;
     @FXML
     private Button btn_update_student;
-    private int index = -1;
+    @FXML
+    private Button btn_make_an_exam;
+    @FXML
+    private Button btn_show_exams;
+    private static String currentSubjectSelected = null;
 
-    public static String subjectName;
-    DBConnection db = DBConnection.getInstance();
-    public static ObservableList<Student_Subjects> ol = FXCollections.observableArrayList();
 
     public void initialize() throws SQLException {
-        lbl_subject_name.setText(subjectName);
+        lbl_subject_name.setText(Multipurpose.subjectName);
         col_id.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_7th.setCellValueFactory(new PropertyValueFactory<>("grade_7th"));
         col_12th.setCellValueFactory(new PropertyValueFactory<>("grade_12th"));
         col_final.setCellValueFactory(new PropertyValueFactory<>("grade_final"));
+
         if (ol.isEmpty()) {
-            db.get_students_in_subject(Professor_HomePage_Controller.professor.getID(), subjectName);
+            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subjectName);
+            currentSubjectSelected = Multipurpose.subjectName;
+        } else if (!currentSubjectSelected.equals(Multipurpose.subjectName)) {
+            ol.clear();
+            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subjectName);
+            currentSubjectSelected = Multipurpose.subjectName;
         }
         table.setItems(ol);
     }
 
     public void selected_student(MouseEvent event) {
         index = table.getSelectionModel().getSelectedIndex();
-        if (index <= -1) {
-            return;
-        }
+        if (index <= -1) return;
         tf_id.setText(col_id.getCellData(index).toString());
-        tf_name.setText(col_name.getCellData(index).toString());
+        tf_name.setText(col_name.getCellData(index));
         tf_7th.setText(col_7th.getCellData(index).toString());
         tf_12th.setText(col_12th.getCellData(index).toString());
         tf_final.setText(col_final.getCellData(index).toString());
     }
 
-    public void update_student_grades(ActionEvent e) throws SQLException, IOException {
-        db.update_student_grade(tf_id.getText(), subjectName, tf_7th.getText(), tf_12th.getText(), tf_final.getText());
-        displayMessage();
+    public void update_student_grades(ActionEvent e) throws SQLException {
+        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subjectName, tf_7th.getText(),
+                tf_12th.getText(), tf_final.getText());
+        m.displayMessage("Done Updating!", "Value Updated Successfully!",
+                "Note: You Will See The Update If you Refresh The Page!");
     }
 
-    public void make_an_exam(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Make_An_Exam.fxml")));
-        assert root != null;
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+    public void make_an_exam(ActionEvent e) throws IOException {
+        m.change_scene(e, "Professor_Make_An_Exam");
     }
 
     public void navigation_handler(ActionEvent e) throws IOException {
-        String clicked = ((Button) e.getSource()).getText();
-        Parent root;
-
-        if (clicked.equals("Home")) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-            ol.clear();
-        } else if (clicked.equals("Logout")) {
-            ol.clear();
-            Professor_HomePage_Controller.professor.logout();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
-        } else {
-            ol.clear();
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-        }
-
-        assert root != null;
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-    }
-
-    public void displayMessage() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Done Updating!");
-        alert.setHeaderText("Value Updated Successfully!");
-        alert.setContentText("Note: You Will See The Update If you Refresh The Page!");
-        alert.showAndWait();
+        ol.clear();
+        m.navigation_handler(e, "Professor_HomePage");
     }
 }

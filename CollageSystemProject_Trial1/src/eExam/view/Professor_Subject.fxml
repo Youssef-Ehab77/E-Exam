@@ -21,7 +21,7 @@
     </Label>
     <TableView fx:id="table" layoutX="28.0" layoutY="118.0" onMouseClicked="#selected_student" prefHeight="690.0" prefWidth="790.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
         <columns>
-            <TableColumn fx:id="col_id" prefWidth="90.0" text="ID" />
+            <TableColumn fx:id="col_id" prefWidth="90.0" text="Student ID" />
             <TableColumn fx:id="col_name" prefWidth="200.0" text="Name" />
             <TableColumn prefWidth="500.0" text="Grades">
                 <columns>

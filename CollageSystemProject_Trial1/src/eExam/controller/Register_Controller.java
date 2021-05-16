@@ -3,20 +3,15 @@ package eExam.controller;
 import eExam.model.DBConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class Register_Controller {
 
+    private final Multipurpose m = Multipurpose.getInstance();
     @FXML
     private ToggleGroup gender;
     @FXML
@@ -53,12 +48,8 @@ public class Register_Controller {
     }
 
     public void press_back_to_login(ActionEvent e) throws IOException {
-        Parent root;
-        if (Welcome_Controller.userType.equals("student")) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Login.fxml")));
-        } else root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        if (Multipurpose.userType.equals("student")) {
+            m.change_scene(e, "Student_Login");
+        } else m.change_scene(e, "Professor_Login");
     }
 }

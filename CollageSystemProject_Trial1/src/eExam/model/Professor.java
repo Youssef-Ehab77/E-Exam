@@ -4,13 +4,20 @@ import java.util.ArrayList;
 
 public class Professor {
 
+    private static final Professor p = new Professor();
     private ArrayList<String> subjects = new ArrayList<>();
     private String name;
     private String password;
     private int ID;
     private boolean admin;
 
-    //Admin
+    private Professor(){
+        
+    }
+
+    public static Professor getInstance() {
+        return p;
+    }
 
 
     public void addSubject(String subject) {
@@ -64,4 +71,6 @@ public class Professor {
         password = null;
         ID = 0;
     }
+
+
 }

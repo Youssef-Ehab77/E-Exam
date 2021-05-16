@@ -2,8 +2,17 @@ package eExam.model;
 
 public class Student_Subjects {
 
+    private static final Student_Subjects ss = new Student_Subjects();
     public int id, grade_7th, grade_12th, grade_final;
     public String name;
+
+    private Student_Subjects(){
+
+    }
+
+    public static Student_Subjects getInstance(){
+        return ss;
+    }
 
     public Student_Subjects(int id, String name, int grade_7th, int grade_12th, int grade_final) {
         this.id = id;
