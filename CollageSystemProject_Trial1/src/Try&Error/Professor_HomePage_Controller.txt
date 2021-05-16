@@ -1,0 +1,95 @@
+//
+//    public void displayMessage() {
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Information Dialog");
+//        alert.setHeaderText(null);
+//        alert.setContentText("Downloading, please wait");
+//        alert.showAndWait();
+//    }
+
+
+//btn trial 1
+
+//btn.setOnAction( e -> {
+//        Professor_Subject_Controller.subjectName = btn.getText();
+//        Parent r = null;
+//        try {
+//        r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
+//        } catch (IOException ioException) {
+//        ioException.printStackTrace();
+//        }
+//        Scene scene = new Scene(r);
+//        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//        stage.setScene(scene);
+//        });
+
+//btn trial 2
+
+// btn.setOnAction(new EventHandler<ActionEvent>() {
+//@Override
+//public void handle(ActionEvent event) {
+//        Professor_Subject_Controller.subjectName = btn.getText();
+//        Parent r = null;
+//        try {
+//        r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
+//        } catch (IOException e) {
+//        e.printStackTrace();
+//        }
+//        Scene scene = new Scene(r);
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        stage.setScene(scene);
+//        }
+//        });
+
+//Professor_Subject_Controller.subjectName = btn.getText();
+//                Parent r = null;
+//                try {
+//                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
+//                } catch (IOException ioException) {
+//                    ioException.printStackTrace();
+//                }
+//                Scene scene = new Scene(r);
+//                Stage stage = (Stage) btn.getScene().getWindow();
+//                stage.setScene(scene);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TabPane Failed Trial!! -->> ++ adding listener to tabPane ++
+//    public TabPane tp;
+//    static String name;
+//    static String password;
+//
+//
+//    public void initialize() throws SQLException {
+//        Statement stmt = null;
+//        ArrayList<String> al = new ArrayList<>();
+//
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "gamd1998");
+//            stmt = con.createStatement();
+//        } catch (Exception e) {
+//            System.out.println("Error : " + e);
+//        }
+//
+//        String sql = "select name\n" +
+//                "from professor_subject ps\n" +
+//                "         join subject s\n" +
+//                "              on ps.subject_id = id\n" +
+//                "where professor_id =\n" +
+//                "      (select id from professor where name ='" + name + "' and password = '" + password + "')";
+//
+//        assert stmt != null;
+//        ResultSet rs = stmt.executeQuery(sql);
+//        // we used the system.out to get the name of the 1st tab loaded on the screen (Fixed the problem on the 1st try)
+//        if (!rs.isBeforeFirst()) System.out.println(tp.getSelectionModel().selectedItemProperty().get().getText());
+//        tp.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> System.out.println(newValue.getText()));
+//
+//        while (rs.next()) {
+//            al.add(rs.getString(1));
+//        }
+//
+//        for (String name : al) {
+//            tp.getTabs().add(new Tab(name));
+//        }
+//    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class Student {
 
+    private static final Student s = new Student();
     private String id;
     private String name;
     private String password;
     private ArrayList<Subject> subjects = new ArrayList<>();
+
+    private Student() {
+
+    }
+
+    public static Student getInstance() {
+        return s;
+    }
 
     public void addSubject(Subject subject) {
         this.subjects.add(subject);

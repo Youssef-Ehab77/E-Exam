@@ -1,32 +1,32 @@
 package eExam.controller;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
+
+/**
+ * In this class we just see if the user is professor or student
+ * and then set the static variable in Multipurpose class to the user's type.
+ */
 
 public class Welcome_Controller {
 
-    public Button btn_professor;
-    public Button btn_Student;
+    private final Multipurpose m = Multipurpose.getInstance();
+    @FXML
+    private Button btn_professor;
+    @FXML
+    private Button btn_Student;
 
     public void press_professor(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Professor.fxml")));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        m.change_scene(e, "Professor_Login");
+        Multipurpose.userType = "professor";
     }
 
     public void press_student(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Login_Student.fxml")));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(scene);
+        m.change_scene(e, "Student_Login");
+        Multipurpose.userType = "student";
     }
+
 }
