@@ -63,7 +63,7 @@ public class Professor_HomePage_Controller {
             btn.setOnAction(e -> {
                 try {
                     change_scene(btn);
-                } catch (IOException ioException) {
+                } catch (IOException | SQLException ioException) {
                     ioException.printStackTrace();
                 }
             });
@@ -77,8 +77,8 @@ public class Professor_HomePage_Controller {
         }
     }
 
-    public void change_scene(Button e) throws IOException {
-        Multipurpose.subjectName = e.getText();
+    public void change_scene(Button e) throws IOException, SQLException {
+        Multipurpose.db.get_subject_data(e.getText());
         Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();

@@ -7,11 +7,14 @@ public interface DB {
 
     int add_user(String name, String password, String gender, String dob) throws SQLException;
 
+    void get_subject_data(String name) throws SQLException;
+
     void get_professor_subjects(int id) throws SQLException;
 
     void get_students_in_subject(int professor_id, String subject_name) throws SQLException;
 
     void update_student_grade(String student_id, String subject_name, String grade_7th, String grade_12th, String grade_final) throws SQLException;
 
+    void make_an_exam(Exam exam) throws SQLException;
 
 }

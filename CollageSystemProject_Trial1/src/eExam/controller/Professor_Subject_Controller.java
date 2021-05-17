@@ -75,7 +75,7 @@ public class Professor_Subject_Controller {
 
 
     public void initialize() throws SQLException {
-        lbl_subject_name.setText(Multipurpose.subjectName);
+        lbl_subject_name.setText(Multipurpose.subject.getSubjectName());
         col_id.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_7th.setCellValueFactory(new PropertyValueFactory<>("grade_7th"));
@@ -83,12 +83,12 @@ public class Professor_Subject_Controller {
         col_final.setCellValueFactory(new PropertyValueFactory<>("grade_final"));
 
         if (ol.isEmpty()) {
-            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subjectName);
-            currentSubjectSelected = Multipurpose.subjectName;
-        } else if (!currentSubjectSelected.equals(Multipurpose.subjectName)) {
+            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
+            currentSubjectSelected = Multipurpose.subject.getSubjectName();
+        } else if (!currentSubjectSelected.equals(Multipurpose.subject.getSubjectName())) {
             ol.clear();
-            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subjectName);
-            currentSubjectSelected = Multipurpose.subjectName;
+            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
+            currentSubjectSelected = Multipurpose.subject.getSubjectName();
         }
         table.setItems(ol);
     }
@@ -104,7 +104,7 @@ public class Professor_Subject_Controller {
     }
 
     public void update_student_grades(ActionEvent e) throws SQLException {
-        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subjectName, tf_7th.getText(),
+        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subject.getSubjectName(), tf_7th.getText(),
                 tf_12th.getText(), tf_final.getText());
         m.displayMessage("Done Updating!", "Value Updated Successfully!",
                 "Note: You Will See The Update If you Refresh The Page!");

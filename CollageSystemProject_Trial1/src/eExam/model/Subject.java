@@ -3,8 +3,7 @@ package eExam.model;
 public class Subject {
     private static final Subject s = new Subject();
     private String subjectName;
-    private String level;
-    private String ID;
+    private int ID;
 
     private Subject(){
 
@@ -22,19 +21,12 @@ public class Subject {
         this.subjectName = subjectName;
     }
 
-    public String getLevel() {
-        return level;
-    }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 }

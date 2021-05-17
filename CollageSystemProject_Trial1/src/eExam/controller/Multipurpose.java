@@ -3,6 +3,7 @@ package eExam.controller;
 import eExam.model.DB;
 import eExam.model.DB_Proxy;
 import eExam.model.Professor;
+import eExam.model.Subject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -31,8 +32,8 @@ public class Multipurpose {
     private static final Multipurpose m = new Multipurpose();
     public static Professor professor = Professor.getInstance();
     public static final DB db = DB_Proxy.getInstance();
+    public static final Subject subject = Subject.getInstance();
     public static String userType;
-    public static String subjectName;
 
     private Multipurpose() {
     }

@@ -90,6 +90,17 @@ public class DBConnection implements DB {
         return rs;
     }
 
+    @Override
+    public void get_subject_data(String name) throws SQLException {
+        String sql = "select id from subject where name = '" + name + "'";
+        ResultSet rs = stmt.executeQuery(sql);
+        if (rs.next()) {
+            Multipurpose.subject.setID(rs.getInt(1));
+            Multipurpose.subject.setSubjectName(name);
+        }
+
+    }
+
     /**
      * @param id user id
      * @throws SQLException We get all the subjects that the professor teaches and add it to the Professor's
@@ -130,6 +141,15 @@ public class DBConnection implements DB {
                 "    final = " + grade_final + "\n" +
                 "WHERE (student_id = " + student_id + ")\n" +
                 "  and subject_id = (select id from subject where name ='" + subject_name + "')";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void make_an_exam(Exam exam) throws SQLException {
+        String sql = "INSERT INTO `exam` (`name`, `grade`, `number_of_questions`, `start_time`, `end_time`,`professor_id`,`subject_id`)\n" +
+                "VALUES ('" + exam.getName() + "', '" + exam.getGrade() + "', '"
+                + exam.getNumberOfQuestions() + "', '" + exam.getStart_time() + "', '" + exam.getEnd_time() + "','" +
+                Multipurpose.professor.getID() + "','" + Multipurpose.subject.getID() + "')";
         int rs = stmt.executeUpdate(sql);
     }
 }
