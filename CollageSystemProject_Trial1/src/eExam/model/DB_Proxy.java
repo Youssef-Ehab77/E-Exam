@@ -50,4 +50,9 @@ public class DB_Proxy implements DB {
         real_db.make_an_exam(exam);
     }
 
+    @Override
+    public void get_subject_exam(int professor_id, int subject_id) throws SQLException {
+        real_db.get_subject_exam(professor_id, subject_id);
+    }
+
 }

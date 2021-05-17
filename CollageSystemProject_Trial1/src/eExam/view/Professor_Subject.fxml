@@ -41,9 +41,9 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="btn_show_exams" alignment="CENTER" layoutX="24.0" layoutY="20.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="160.0" text="Show Exams">
+        <Button fx:id="btn_show_exams" alignment="CENTER" layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onAction="#edit_exam" prefHeight="40.0" prefWidth="160.0" text="Show/Edit Exams">
             <font>
-                <Font name="System Bold" size="18.0" />
+                <Font name="System Bold" size="17.0" />
             </font>
         </Button>
         <TextField fx:id="tf_id" editable="false" prefHeight="30.0" prefWidth="160.0" promptText="ID">

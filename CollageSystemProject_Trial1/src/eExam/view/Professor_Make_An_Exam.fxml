@@ -122,11 +122,6 @@
                <Font name="System Bold" size="14.0" />
             </font>
          </Button>
-         <Button fx:id="btn_edit_exam_now" layoutX="107.0" layoutY="270.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="150.0" text="Edit Exam Now">
-            <font>
-               <Font name="System Bold" size="14.0" />
-            </font>
-         </Button>
       </children>
       <padding>
          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

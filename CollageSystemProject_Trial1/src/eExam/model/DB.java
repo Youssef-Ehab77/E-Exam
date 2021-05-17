@@ -17,4 +17,6 @@ public interface DB {
 
     void make_an_exam(Exam exam) throws SQLException;
 
+    void get_subject_exam(int professor_id, int subject_id) throws SQLException;
+
 }

@@ -1,5 +1,7 @@
 package eExam.model;
 
+import eExam.controller.Multipurpose;
+
 import java.util.ArrayList;
 
 public class Professor {
@@ -70,6 +72,7 @@ public class Professor {
         name = null;
         password = null;
         ID = 0;
+        Multipurpose.subject.getExams().clear();
     }
 
 

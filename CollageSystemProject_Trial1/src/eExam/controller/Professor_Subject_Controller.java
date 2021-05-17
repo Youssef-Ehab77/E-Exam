@@ -71,11 +71,17 @@ public class Professor_Subject_Controller {
     private Button btn_make_an_exam;
     @FXML
     private Button btn_show_exams;
+    boolean is_updated = false;
     private static String currentSubjectSelected = null;
 
 
     public void initialize() throws SQLException {
         lbl_subject_name.setText(Multipurpose.subject.getSubjectName());
+        update_table();
+
+    }
+
+    public void update_table() throws SQLException {
         col_id.setCellValueFactory(new PropertyValueFactory<>("student_id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_7th.setCellValueFactory(new PropertyValueFactory<>("grade_7th"));
@@ -85,6 +91,10 @@ public class Professor_Subject_Controller {
         if (ol.isEmpty()) {
             Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
             currentSubjectSelected = Multipurpose.subject.getSubjectName();
+        } else if (is_updated && currentSubjectSelected.equals(Multipurpose.subject.getSubjectName())) {
+            is_updated = false;
+            ol.clear();
+            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
         } else if (!currentSubjectSelected.equals(Multipurpose.subject.getSubjectName())) {
             ol.clear();
             Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
@@ -104,14 +114,21 @@ public class Professor_Subject_Controller {
     }
 
     public void update_student_grades(ActionEvent e) throws SQLException {
+        is_updated = true;
         Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subject.getSubjectName(), tf_7th.getText(),
                 tf_12th.getText(), tf_final.getText());
+        update_table();
         m.displayMessage("Done Updating!", "Value Updated Successfully!",
-                "Note: You Will See The Update If you Refresh The Page!");
+                "");
     }
 
     public void make_an_exam(ActionEvent e) throws IOException {
         m.change_scene(e, "Professor_Make_An_Exam");
+    }
+
+    @FXML
+    void edit_exam(ActionEvent e) throws IOException {
+        m.change_scene(e, "Professor_Subject_Exam");
     }
 
     public void navigation_handler(ActionEvent e) throws IOException {

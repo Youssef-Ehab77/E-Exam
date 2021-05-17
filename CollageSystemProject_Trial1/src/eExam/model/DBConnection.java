@@ -152,4 +152,16 @@ public class DBConnection implements DB {
                 Multipurpose.professor.getID() + "','" + Multipurpose.subject.getID() + "')";
         int rs = stmt.executeUpdate(sql);
     }
+
+    @Override
+    public void get_subject_exam(int professor_id, int subject_id) throws SQLException {
+        String sql = "select id, name,grade,number_of_questions,start_time,end_time from exam where professor_id = " + professor_id + " " +
+                "and subject_id = " + subject_id + "";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Multipurpose.subject.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
+                    rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
+                    rs.getString("end_time")));
+        }
+    }
 }

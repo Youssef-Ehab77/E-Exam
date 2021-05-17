@@ -15,7 +15,6 @@ import java.sql.SQLException;
 public class Professor_Make_An_Exam_Controller {
 
     private final Multipurpose m = Multipurpose.getInstance();
-    private Exam exam;
 
     @FXML
     private Label lbl_welcome;
@@ -38,8 +37,6 @@ public class Professor_Make_An_Exam_Controller {
     @FXML
     private Button btn_confirm;
     @FXML
-    private Button btn_edit_exam_now;
-    @FXML
     private DatePicker tf_exam_day;
     @FXML
     private TextField tf_exam_name;
@@ -60,11 +57,13 @@ public class Professor_Make_An_Exam_Controller {
         start_time = tf_exam_day.getValue().toString() + " " + tf_start_hour.getText() + ":" + tf_start_min.getText() + ":" + tf_start_sec.getText();
         end_time = tf_exam_day.getValue().toString() + " " + tf_end_hour.getText() + ":" + tf_end_min.getText() + ":" + tf_end_sec.getText();
 
-        exam = new Exam(name, grade, number_of_questions, start_time, end_time);
+        Exam exam = new Exam(name, grade, number_of_questions, start_time, end_time);
 
         Multipurpose.db.make_an_exam(exam);
         m.displayMessage("Done", "Exam Saved Successfully", "");
     }
+
+
 
     public void navigation_handler(ActionEvent e) throws IOException {
         m.navigation_handler(e, "Professor_Subject");

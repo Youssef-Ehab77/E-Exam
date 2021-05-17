@@ -1,9 +1,6 @@
 package eExam.controller;
 
-import eExam.model.DB;
-import eExam.model.DB_Proxy;
-import eExam.model.Professor;
-import eExam.model.Subject;
+import eExam.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -73,4 +70,5 @@ public class Multipurpose {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
+
 }

@@ -21,7 +21,7 @@ Button:hover {
     -fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #4db2db 0%, #5bcad9 100%),
     #245e9d,
     #000000,
-    radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+    radial-gradient(center 50% 50%, radius 100%, #96fab4, #19cd3f);
     fx-padding: 10px 15px 13px 15px;
     -fx-background-insets: 2 0 0 0, 2 0 3 0, 2 0 4 0, 2 0 5 0;
 }

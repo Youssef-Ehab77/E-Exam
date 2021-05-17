@@ -2,8 +2,8 @@ package eExam.model;
 
 public class Exam {
 
+    private int ID;
     private String name;
-    private String ID;
     private int numberOfQuestions;
     private int grade;
     private String start_time, end_time;
@@ -16,6 +16,16 @@ public class Exam {
         this.start_time = start_time;
         this.end_time = end_time;
     }
+
+    public Exam(int id, String name, int grade, int numberOfQuestions, String start_time, String end_time) {
+        this.ID = id;
+        this.name = name;
+        this.grade = grade;
+        this.numberOfQuestions = numberOfQuestions;
+        this.start_time = start_time;
+        this.end_time = end_time;
+    }
+
 
     public int getGrade() {
         return grade;
@@ -50,11 +60,11 @@ public class Exam {
         this.name = name;
     }
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
