@@ -7,34 +7,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eExam.controller.Professor_Add_Questions_To_Exam_Controller">
+<AnchorPane fx:id="root" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Professor_Add_Questions_To_Exam_Controller">
     <AnchorPane prefHeight="21.0" prefWidth="1000.0" stylesheets="@css/Buttons_HomePage.css">
-        <Button id="normal_button" fx:id="btn_home" layoutX="138.0" layoutY="1.0" mnemonicParsing="false"
-                onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Home">
+        <Button id="normal_button" fx:id="btn_home" layoutX="138.0" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Home">
             <graphic>
                 <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@Images/homepage.png"/>
+                    <Image url="@Images/homepage.png" />
                 </ImageView>
             </graphic>
         </Button>
-        <Button id="normal_button" fx:id="btn_back" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler"
-                prefHeight="28.0" prefWidth="120.0" text="Back">
+        <Button id="normal_button" fx:id="btn_back" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Back">
             <graphic>
                 <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@Images/back.png"/>
+                    <Image url="@Images/back.png" />
                 </ImageView>
             </graphic>
         </Button>
-        <Button id="normal_button" fx:id="btn_logout" layoutX="866.0" layoutY="1.0" mnemonicParsing="false"
-                onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Logout">
+        <Button id="normal_button" fx:id="btn_logout" layoutX="866.0" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Logout">
             <graphic>
                 <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@Images/logout.png"/>
+                    <Image url="@Images/logout.png" />
                 </ImageView>
             </graphic>
         </Button>
     </AnchorPane>
+   <Label fx:id="lbl_welcome" alignment="CENTER" layoutX="242.0" layoutY="38.0" prefHeight="130.0" prefWidth="515.0" textAlignment="CENTER" wrapText="true">
+      <font>
+         <Font name="Baskerville Old Face" size="24.0" />
+      </font>
+   </Label>
 
 </AnchorPane>

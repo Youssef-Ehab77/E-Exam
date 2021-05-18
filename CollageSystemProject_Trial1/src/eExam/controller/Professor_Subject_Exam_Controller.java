@@ -61,6 +61,7 @@ public class Professor_Subject_Exam_Controller {
     }
 
     public void change_scene(Button e) throws IOException, SQLException {
+        Multipurpose.exam.setName(e.getText());
         Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Add_Questions_To_Exam.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();

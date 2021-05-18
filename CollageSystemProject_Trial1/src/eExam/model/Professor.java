@@ -7,14 +7,17 @@ import java.util.ArrayList;
 public class Professor {
 
     private static final Professor p = new Professor();
-    private ArrayList<String> subjects = new ArrayList<>();
+    private int ID;
     private String name;
     private String password;
-    private int ID;
     private boolean admin;
+    private String gender;
+    private String birthDate;
+    private ArrayList<String> subjects = new ArrayList<>();
+
 
     private Professor(){
-        
+
     }
 
     public static Professor getInstance() {
@@ -25,6 +28,24 @@ public class Professor {
     public void addSubject(String subject) {
         this.subjects.add(subject);
     }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
 
     public String getName() {
         return name;
@@ -67,11 +88,13 @@ public class Professor {
     }
 
     public void logout() {
-        subjects.clear();
-        admin = false;
+        ID = 0;
         name = null;
         password = null;
-        ID = 0;
+        admin = false;
+        gender = null;
+        birthDate = null;
+        subjects.clear();
         Multipurpose.subject.getExams().clear();
     }
 

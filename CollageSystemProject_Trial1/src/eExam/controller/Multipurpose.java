@@ -30,6 +30,7 @@ public class Multipurpose {
     public static Professor professor = Professor.getInstance();
     public static final DB db = DB_Proxy.getInstance();
     public static final Subject subject = Subject.getInstance();
+    public static Exam exam = new Exam();
     public static String userType;
 
     private Multipurpose() {

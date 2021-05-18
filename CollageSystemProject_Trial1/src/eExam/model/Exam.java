@@ -8,6 +8,9 @@ public class Exam {
     private int grade;
     private String start_time, end_time;
 
+    public Exam(){
+
+    }
 
     public Exam(String name, int grade, int numberOfQuestions, String start_time, String end_time) {
         this.name = name;
