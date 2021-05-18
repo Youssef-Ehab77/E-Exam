@@ -41,13 +41,28 @@ public class DB_Proxy implements DB {
     }
 
     @Override
-    public void make_an_exam(Exam exam) throws SQLException {
-        real_db.make_an_exam(exam);
+    public int make_an_exam(Exam exam) throws SQLException {
+        return real_db.make_an_exam(exam);
     }
 
     @Override
     public void get_subject_exam(int professor_id, int subject_id) throws SQLException {
         real_db.get_subject_exam(professor_id, subject_id);
+    }
+
+    @Override
+    public void initialize_exam(int numberOfQuestion, int examID) throws SQLException {
+        real_db.initialize_exam(numberOfQuestion, examID);
+    }
+
+    @Override
+    public void get_questions_in_exam(int exam_id) throws SQLException {
+        real_db.get_questions_in_exam(exam_id);
+    }
+
+    @Override
+    public void update_question_data(int id, int grade, String type, String question, String option_1, String option_2, String option_3, String option_4, String correct_answer) throws SQLException {
+        real_db.update_question_data(id, grade, type, question, option_1, option_2, option_3, option_4, correct_answer);
     }
 
 }

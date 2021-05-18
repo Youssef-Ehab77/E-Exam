@@ -43,7 +43,7 @@ public class Professor_Subject_Controller {
     private final Multipurpose m = Multipurpose.getInstance();
     private final Professor p = Professor.getInstance();
     public static ObservableList<Student_Subjects> ol = FXCollections.observableArrayList();
-    boolean is_updated = false;
+    boolean studentGradeIsUpdated = false;
     private static String currentSubjectSelected = null;
     @FXML
     private Label lbl_subject_name;
@@ -77,7 +77,6 @@ public class Professor_Subject_Controller {
     private Button btn_show_exams;
 
 
-
     public void initialize() throws SQLException {
         lbl_subject_name.setText(Multipurpose.subjectInUse.getSubjectName());
         update_table();
@@ -93,8 +92,8 @@ public class Professor_Subject_Controller {
         if (ol.isEmpty()) {
             Multipurpose.db.get_students_in_subject(p.getID(), Multipurpose.subjectInUse.getSubjectName());
             currentSubjectSelected = Multipurpose.subjectInUse.getSubjectName();
-        } else if (is_updated && currentSubjectSelected.equals(Multipurpose.subjectInUse)) {
-            is_updated = false;
+        } else if (studentGradeIsUpdated && currentSubjectSelected.equals(Multipurpose.subjectInUse)) {
+            studentGradeIsUpdated = false;
             ol.clear();
             Multipurpose.db.get_students_in_subject(p.getID(), Multipurpose.subjectInUse.getSubjectName());
         } else if (!currentSubjectSelected.equals(Multipurpose.subjectInUse)) {
@@ -116,12 +115,10 @@ public class Professor_Subject_Controller {
     }
 
     public void update_student_grades(ActionEvent e) throws SQLException {
-        is_updated = true;
-        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subjectInUse.getSubjectName(), tf_7th.getText(),
-                tf_12th.getText(), tf_final.getText());
+        studentGradeIsUpdated = true;
+        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subjectInUse.getSubjectName(), tf_7th.getText(), tf_12th.getText(), tf_final.getText());
         update_table();
-        m.displayMessage("Done Updating!", "Value Updated Successfully!",
-                "");
+        m.displayMessage("Done Updating!", "Value Updated Successfully!", "");
     }
 
     public void make_an_exam(ActionEvent e) throws IOException {

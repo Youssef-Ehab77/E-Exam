@@ -13,8 +13,15 @@ public interface DB {
 
     void update_student_grade(String student_id, String subject_name, String grade_7th, String grade_12th, String grade_final) throws SQLException;
 
-    void make_an_exam(Exam exam) throws SQLException;
+    int make_an_exam(Exam exam) throws SQLException;
 
     void get_subject_exam(int professor_id, int subject_id) throws SQLException;
+
+    void initialize_exam(int numberOfQuestion, int examID) throws SQLException;
+
+    void get_questions_in_exam(int exam_id) throws SQLException;
+
+    void update_question_data(int id, int grade, String type, String question, String option_1, String option_2, String option_3,
+                              String option_4, String correct_answer) throws SQLException;
 
 }

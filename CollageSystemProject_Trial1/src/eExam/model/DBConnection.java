@@ -1,6 +1,7 @@
 package eExam.model;
 
 import eExam.controller.Multipurpose;
+import eExam.controller.Professor_Add_Questions_To_Exam_Controller;
 import eExam.controller.Professor_Subject_Controller;
 
 import java.sql.*;
@@ -139,12 +140,17 @@ public class DBConnection implements DB {
     }
 
     @Override
-    public void make_an_exam(Exam exam) throws SQLException {
+    public int make_an_exam(Exam exam) throws SQLException {
         String sql = "INSERT INTO `exam` (`name`, `grade`, `number_of_questions`, `start_time`, `end_time`,`professor_id`,`subject_id`)\n" +
                 "VALUES ('" + exam.getName() + "', '" + exam.getGrade() + "', '"
                 + exam.getNumberOfQuestions() + "', '" + exam.getStart_time() + "', '" + exam.getEnd_time() + "','" +
                 p.getID() + "','" + Multipurpose.subjectInUse.getID() + "')";
         int rs = stmt.executeUpdate(sql);
+        String sql2 = "SELECT id from exam where name = '" + exam.getName() + "' and " +
+                "professor_id = '" + p.getID() + "' and subject_id = '" + Multipurpose.subjectInUse.getID() + "'";
+        ResultSet rs2 = stmt.executeQuery(sql2);
+        rs2.next();
+        return rs2.getInt("id");
     }
 
     @Override
@@ -157,5 +163,35 @@ public class DBConnection implements DB {
                     rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
                     rs.getString("end_time")));
         }
+    }
+
+    @Override
+    public void initialize_exam(int numberOfQuestion, int examID) throws SQLException {
+        String sql = "insert into questions (exam_id) values ('" + examID + "')";
+        int rs;
+        for (int i = 0; i < numberOfQuestion; i++) {
+            rs = stmt.executeUpdate(sql);
+        }
+    }
+
+    @Override
+    public void get_questions_in_exam(int exam_id) throws SQLException {
+        String sql = "select * from questions where exam_id = " + exam_id + "";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
+                    rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
+                    rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
+                    rs.getString("correct_answer")));
+        }
+    }
+
+    @Override
+    public void update_question_data(int id, int grade, String type, String question, String option_1, String option_2, String option_3, String option_4, String correct_answer) throws SQLException {
+        String sql = "UPDATE questions SET `type` = '" + type + "', `question` = '" + question + "'," +
+                " `option_1` = '" + option_1 + "', `option_2` = '" + option_2 + "', `option_3` = '" + option_3 + "'," +
+                " `option_4` = '" + option_4 + "', `correct_answer` = '" + correct_answer + "', `grade` = '" + grade +
+                "' WHERE (`id` = '" + id + "') and (`exam_id` = '" + Multipurpose.examInUse.getID() + " ')";
+        int rs = stmt.executeUpdate(sql);
     }
 }

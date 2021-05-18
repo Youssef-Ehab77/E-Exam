@@ -58,7 +58,9 @@ public class Professor_Make_An_Exam_Controller {
         end_time = tf_exam_day.getValue().toString() + " " + tf_end_hour.getText() + ":" + tf_end_min.getText() + ":" + tf_end_sec.getText();
 
         Exam exam = new Exam(name, grade, number_of_questions, start_time, end_time);
-        Multipurpose.db.make_an_exam(exam);
+        int id = Multipurpose.db.make_an_exam(exam);
+        Multipurpose.db.initialize_exam(Integer.parseInt(tf_number_of_questions.getText()), id);
+        Multipurpose.examAdded = true;
 
         tf_exam_name.setText("");
         tf_number_of_questions.setText("");
@@ -70,7 +72,6 @@ public class Professor_Make_An_Exam_Controller {
         tf_end_hour.setText("");
         tf_end_min.setText("");
         tf_end_sec.setText("");
-        Multipurpose.examAdded = true;
         m.displayMessage("Done", "Exam Saved Successfully", "");
 
     }
