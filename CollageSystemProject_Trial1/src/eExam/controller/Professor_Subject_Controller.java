@@ -1,5 +1,6 @@
 package eExam.controller;
 
+import eExam.model.Professor;
 import eExam.model.Student_Subjects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +41,10 @@ public class Professor_Subject_Controller {
 
     private int index = -1;
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Professor p = Professor.getInstance();
     public static ObservableList<Student_Subjects> ol = FXCollections.observableArrayList();
+    boolean is_updated = false;
+    private static String currentSubjectSelected = null;
     @FXML
     private Label lbl_subject_name;
     @FXML
@@ -71,14 +75,12 @@ public class Professor_Subject_Controller {
     private Button btn_make_an_exam;
     @FXML
     private Button btn_show_exams;
-    boolean is_updated = false;
-    private static String currentSubjectSelected = null;
+
 
 
     public void initialize() throws SQLException {
-        lbl_subject_name.setText(Multipurpose.subject.getSubjectName());
+        lbl_subject_name.setText(Multipurpose.subjectInUse.getSubjectName());
         update_table();
-
     }
 
     public void update_table() throws SQLException {
@@ -89,16 +91,16 @@ public class Professor_Subject_Controller {
         col_final.setCellValueFactory(new PropertyValueFactory<>("grade_final"));
 
         if (ol.isEmpty()) {
-            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
-            currentSubjectSelected = Multipurpose.subject.getSubjectName();
-        } else if (is_updated && currentSubjectSelected.equals(Multipurpose.subject.getSubjectName())) {
+            Multipurpose.db.get_students_in_subject(p.getID(), Multipurpose.subjectInUse.getSubjectName());
+            currentSubjectSelected = Multipurpose.subjectInUse.getSubjectName();
+        } else if (is_updated && currentSubjectSelected.equals(Multipurpose.subjectInUse)) {
             is_updated = false;
             ol.clear();
-            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
-        } else if (!currentSubjectSelected.equals(Multipurpose.subject.getSubjectName())) {
+            Multipurpose.db.get_students_in_subject(p.getID(), Multipurpose.subjectInUse.getSubjectName());
+        } else if (!currentSubjectSelected.equals(Multipurpose.subjectInUse)) {
             ol.clear();
-            Multipurpose.db.get_students_in_subject(Multipurpose.professor.getID(), Multipurpose.subject.getSubjectName());
-            currentSubjectSelected = Multipurpose.subject.getSubjectName();
+            Multipurpose.db.get_students_in_subject(p.getID(), Multipurpose.subjectInUse.getSubjectName());
+            currentSubjectSelected = Multipurpose.subjectInUse.getSubjectName();
         }
         table.setItems(ol);
     }
@@ -115,7 +117,7 @@ public class Professor_Subject_Controller {
 
     public void update_student_grades(ActionEvent e) throws SQLException {
         is_updated = true;
-        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subject.getSubjectName(), tf_7th.getText(),
+        Multipurpose.db.update_student_grade(tf_id.getText(), Multipurpose.subjectInUse.getSubjectName(), tf_7th.getText(),
                 tf_12th.getText(), tf_final.getText());
         update_table();
         m.displayMessage("Done Updating!", "Value Updated Successfully!",

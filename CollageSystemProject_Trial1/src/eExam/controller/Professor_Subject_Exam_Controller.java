@@ -1,6 +1,7 @@
 package eExam.controller;
 
 import eExam.model.Exam;
+import eExam.model.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import java.util.Objects;
 public class Professor_Subject_Exam_Controller {
 
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Professor p = Professor.getInstance();
     private int x_axis = 25, y_axis = 175;
     @FXML
     private AnchorPane root;
@@ -26,24 +28,26 @@ public class Professor_Subject_Exam_Controller {
     private static String current_subject = null;
 
     public void initialize() throws SQLException {
-        lbl_welcome.setText("Exams For " + Multipurpose.subject.getSubjectName());
+        lbl_welcome.setText("Exams For " + Multipurpose.subjectInUse.getSubjectName());
 
-        if (Multipurpose.subject.getExams().isEmpty()) {
-            Multipurpose.db.get_subject_exam(Multipurpose.professor.getID(), Multipurpose.subject.getID());
-            current_subject = Multipurpose.subject.getSubjectName();
-        } else if (!Multipurpose.subject.getExams().isEmpty() && !current_subject.equals(Multipurpose.subject.getSubjectName())) {
-            Multipurpose.subject.getExams().clear();
-            Multipurpose.db.get_subject_exam(Multipurpose.professor.getID(), Multipurpose.subject.getID());
-            current_subject = Multipurpose.subject.getSubjectName();
+        if (Multipurpose.subjectInUse.getExams().isEmpty()) {
+            Multipurpose.db.get_subject_exam(p.getID(), Multipurpose.subjectInUse.getID());
+            current_subject = Multipurpose.subjectInUse.getSubjectName();
+        } else if (!Multipurpose.subjectInUse.getExams().isEmpty() && !current_subject.equals(Multipurpose.subjectInUse.getSubjectName()) || Multipurpose.examAdded) {
+            Multipurpose.subjectInUse.getExams().clear();
+            Multipurpose.examAdded = false;
+            Multipurpose.db.get_subject_exam(p.getID(), Multipurpose.subjectInUse.getID());
+            current_subject = Multipurpose.subjectInUse.getSubjectName();
         }
 
-        for (Exam exam : Multipurpose.subject.getExams()) {
+        for (Exam exam : Multipurpose.subjectInUse.getExams()) {
             Button btn = new Button();
             btn.setText(exam.getName());
             btn.setId(exam.getName().trim());
             btn.setLayoutX(x_axis);
             btn.setLayoutY(y_axis);
             btn.setOnAction(e -> {
+                Multipurpose.examInUse = exam;
                 try {
                     change_scene(btn);
                 } catch (IOException | SQLException ioException) {
@@ -61,7 +65,6 @@ public class Professor_Subject_Exam_Controller {
     }
 
     public void change_scene(Button e) throws IOException, SQLException {
-        Multipurpose.exam.setName(e.getText());
         Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Add_Questions_To_Exam.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();

@@ -10,13 +10,13 @@ public class Professor {
     private int ID;
     private String name;
     private String password;
-    private boolean admin;
+    private int admin;
     private String gender;
     private String birthDate;
-    private ArrayList<String> subjects = new ArrayList<>();
+    private final ArrayList<Subject> subjects = new ArrayList<>();
 
 
-    private Professor(){
+    private Professor() {
 
     }
 
@@ -25,7 +25,7 @@ public class Professor {
     }
 
 
-    public void addSubject(String subject) {
+    public void addSubject(Subject subject) {
         this.subjects.add(subject);
     }
 
@@ -44,7 +44,6 @@ public class Professor {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
 
 
     public String getName() {
@@ -71,31 +70,29 @@ public class Professor {
         this.ID = ID;
     }
 
-    public boolean isAdmin() {
+    public int isAdmin() {
         return admin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(int admin) {
         this.admin = admin;
     }
 
-    public ArrayList<String> getSubjects() {
+    public ArrayList<Subject> getSubjects() {
         return subjects;
     }
 
-    public void setSubjects(ArrayList<String> subjects) {
-        this.subjects = subjects;
-    }
 
     public void logout() {
         ID = 0;
         name = null;
         password = null;
-        admin = false;
+        admin = 0;
         gender = null;
         birthDate = null;
         subjects.clear();
-        Multipurpose.subject.getExams().clear();
+        Multipurpose.subjectInUse = null;
+        Multipurpose.examInUse = null;
     }
 
 

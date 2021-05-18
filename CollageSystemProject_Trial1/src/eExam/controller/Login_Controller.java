@@ -47,8 +47,6 @@ public class Login_Controller {
             } else if (Multipurpose.userType.equals("student")) {
                 m.change_scene(e, "Student_HomePage");
             } else {
-                Multipurpose.professor.setName(name);
-                Multipurpose.professor.setPassword(password);
                 m.change_scene(e, "Professor_HomePage");
             }
         }

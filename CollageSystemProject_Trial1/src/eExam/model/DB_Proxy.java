@@ -26,11 +26,6 @@ public class DB_Proxy implements DB {
     }
 
     @Override
-    public void get_subject_data(String name) throws SQLException {
-        real_db.get_subject_data(name);
-    }
-
-    @Override
     public void get_professor_subjects(int id) throws SQLException {
         real_db.get_professor_subjects(id);
     }

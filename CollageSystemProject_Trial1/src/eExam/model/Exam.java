@@ -1,5 +1,7 @@
 package eExam.model;
 
+import java.util.ArrayList;
+
 public class Exam {
 
     private int ID;
@@ -7,6 +9,7 @@ public class Exam {
     private int numberOfQuestions;
     private int grade;
     private String start_time, end_time;
+    private final ArrayList<Questions> questions = new ArrayList<>();
 
     public Exam(){
 

@@ -9,6 +9,7 @@ public class DBConnection implements DB {
 
     private static final DBConnection db = new DBConnection();
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Professor p = Professor.getInstance();
     private Statement stmt;
 
     /**
@@ -50,24 +51,28 @@ public class DBConnection implements DB {
     public boolean check_login(String name, String password) throws SQLException {
         String sql;
         if (Multipurpose.userType.equals("student")) {
-            sql = "select id from student where name = '" + name + "' and password = '" + password + "'";
+            sql = "select * from student where name = '" + name + "' and password = '" + password + "'";
         } else
-            sql = "select  id from professor where name = '" + name + "' and password='" + password + "'";
+            sql = "select  * from professor where name = '" + name + "' and password='" + password + "'";
         ResultSet rs = stmt.executeQuery(sql);
 
         if (!rs.isBeforeFirst()) {
             return false;
+        } else if (Multipurpose.userType.equals("professor")) {
+            rs.next();
+            p.setID(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setPassword(rs.getString("password"));
+            p.setAdmin(rs.getInt("admin"));
+            p.setGender(rs.getString("gender"));
+            p.setBirthDate(rs.getString("birth date"));
         } else {
-            if (Multipurpose.userType.equals("professor")) {
-                rs.next();
-                Multipurpose.professor.setID(rs.getInt(1));
-            } else {
-                rs.next();
-                //  Professor_HomePage_Controller.professor.setID(rs.getInt(1));
-            }
-            return true;
+            rs.next();
+            //  Professor_HomePage_Controller.professor.setID(rs.getInt(1));
         }
+        return true;
     }
+
 
     /**
      * @param name     username that the user entered
@@ -84,21 +89,10 @@ public class DBConnection implements DB {
         if (Multipurpose.userType.equals("student")) {
             sql = "insert into student(name,password,gender,birth_date) values('" + name + "'," +
                     "'" + password + "','" + gender + "','" + dob + "')";
-        } else sql = "insert into professor(name,password,gender,birth_date) values('" + name + "'," +
+        } else sql = "insert into professor(name,password,gender,`birth date`) values('" + name + "'," +
                 "'" + password + "','" + gender + "','" + dob + "')";
         int rs = stmt.executeUpdate(sql);
         return rs;
-    }
-
-    @Override
-    public void get_subject_data(String name) throws SQLException {
-        String sql = "select id from subject where name = '" + name + "'";
-        ResultSet rs = stmt.executeQuery(sql);
-        if (rs.next()) {
-            Multipurpose.subject.setID(rs.getInt(1));
-            Multipurpose.subject.setSubjectName(name);
-        }
-
     }
 
     /**
@@ -108,7 +102,7 @@ public class DBConnection implements DB {
      */
 
     public void get_professor_subjects(int id) throws SQLException {
-        String sql = "select name\n" +
+        String sql = "select id, name\n" +
                 "from professor_subject ps\n" +
                 "         join subject s\n" +
                 "              on ps.subject_id = id\n" +
@@ -116,7 +110,7 @@ public class DBConnection implements DB {
         ResultSet rs = stmt.executeQuery(sql);
 
         while (rs.next()) {
-            Multipurpose.professor.addSubject(rs.getString(1));
+            p.addSubject(new Subject(rs.getInt("id"), rs.getString("name")));
         }
     }
 
@@ -149,7 +143,7 @@ public class DBConnection implements DB {
         String sql = "INSERT INTO `exam` (`name`, `grade`, `number_of_questions`, `start_time`, `end_time`,`professor_id`,`subject_id`)\n" +
                 "VALUES ('" + exam.getName() + "', '" + exam.getGrade() + "', '"
                 + exam.getNumberOfQuestions() + "', '" + exam.getStart_time() + "', '" + exam.getEnd_time() + "','" +
-                Multipurpose.professor.getID() + "','" + Multipurpose.subject.getID() + "')";
+                p.getID() + "','" + Multipurpose.subjectInUse.getID() + "')";
         int rs = stmt.executeUpdate(sql);
     }
 
@@ -159,7 +153,7 @@ public class DBConnection implements DB {
                 "and subject_id = " + subject_id + "";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            Multipurpose.subject.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
+            Multipurpose.subjectInUse.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
                     rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
                     rs.getString("end_time")));
         }

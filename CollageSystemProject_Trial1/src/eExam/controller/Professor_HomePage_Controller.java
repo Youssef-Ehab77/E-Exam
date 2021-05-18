@@ -1,5 +1,7 @@
 package eExam.controller;
 
+import eExam.model.Professor;
+import eExam.model.Subject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +45,7 @@ import java.util.Objects;
 public class Professor_HomePage_Controller {
 
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Professor p = Professor.getInstance();
     @FXML
     private AnchorPane root;
     @FXML
@@ -50,17 +53,18 @@ public class Professor_HomePage_Controller {
     private int x_axis = 25, y_axis = 100;
 
     public void initialize() throws SQLException, IOException {
-        lbl_welcome.setText("Welcome Professor " + Multipurpose.professor.getName());
-        if (Multipurpose.professor.getSubjects().isEmpty()) {
-            Multipurpose.db.get_professor_subjects(Multipurpose.professor.getID());
+        lbl_welcome.setText("Welcome Professor " + p.getName());
+        if (p.getSubjects().isEmpty()) {
+            Multipurpose.db.get_professor_subjects(p.getID());
         }
-        for (String subject : Multipurpose.professor.getSubjects()) {
+        for (Subject subject : p.getSubjects()) {
             Button btn = new Button();
-            btn.setText(subject);
-            btn.setId(subject.trim());
+            btn.setText(subject.getSubjectName());
+            btn.setId(subject.getSubjectName());
             btn.setLayoutX(x_axis);
             btn.setLayoutY(y_axis);
             btn.setOnAction(e -> {
+                Multipurpose.subjectInUse = subject;
                 try {
                     change_scene(btn);
                 } catch (IOException | SQLException ioException) {
@@ -78,7 +82,6 @@ public class Professor_HomePage_Controller {
     }
 
     public void change_scene(Button e) throws IOException, SQLException {
-        Multipurpose.db.get_subject_data(e.getText());
         Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Subject.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();

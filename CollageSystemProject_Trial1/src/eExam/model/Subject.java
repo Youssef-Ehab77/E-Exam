@@ -3,17 +3,18 @@ package eExam.model;
 import java.util.ArrayList;
 
 public class Subject {
-    private static final Subject s = new Subject();
-    private String subjectName;
-    private int ID;
-    private ArrayList<Exam> exams = new ArrayList<>();
 
-    private Subject() {
+    private int ID;
+    private String subjectName;
+    private final ArrayList<Exam> exams = new ArrayList<>();
+
+    public Subject() {
 
     }
 
-    public static Subject getInstance() {
-        return s;
+    public Subject(int ID, String subjectName) {
+        this.ID = ID;
+        this.subjectName = subjectName;
     }
 
     public void addExam(Exam exam) {

@@ -43,7 +43,7 @@ public class Professor_Make_An_Exam_Controller {
 
 
     public void initialize() {
-        lbl_welcome.setText("Make An Exam For " + Multipurpose.subject.getSubjectName());
+        lbl_welcome.setText("Make An Exam For " + Multipurpose.subjectInUse.getSubjectName());
     }
 
     @FXML
@@ -58,11 +58,22 @@ public class Professor_Make_An_Exam_Controller {
         end_time = tf_exam_day.getValue().toString() + " " + tf_end_hour.getText() + ":" + tf_end_min.getText() + ":" + tf_end_sec.getText();
 
         Exam exam = new Exam(name, grade, number_of_questions, start_time, end_time);
-
         Multipurpose.db.make_an_exam(exam);
-        m.displayMessage("Done", "Exam Saved Successfully", "");
-    }
 
+        tf_exam_name.setText("");
+        tf_number_of_questions.setText("");
+        tf_grade.setText("");
+        tf_exam_day.setValue(null);
+        tf_start_hour.setText("");
+        tf_start_min.setText("");
+        tf_start_sec.setText("");
+        tf_end_hour.setText("");
+        tf_end_min.setText("");
+        tf_end_sec.setText("");
+        Multipurpose.examAdded = true;
+        m.displayMessage("Done", "Exam Saved Successfully", "");
+
+    }
 
 
     public void navigation_handler(ActionEvent e) throws IOException {
