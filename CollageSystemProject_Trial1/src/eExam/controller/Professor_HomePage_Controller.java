@@ -50,10 +50,21 @@ public class Professor_HomePage_Controller {
     private AnchorPane root;
     @FXML
     private Label lbl_welcome;
+    @FXML
+    private Button btn_admin;
+    @FXML
+    private Label lbl_admin;
     private int x_axis = 25, y_axis = 100;
 
     public void initialize() throws SQLException, IOException {
         lbl_welcome.setText("Welcome Professor " + p.getName());
+
+        if (p.getAdmin() == 1) {
+            int count = Multipurpose.db.get_account_request_count();
+            btn_admin.setVisible(true);
+            lbl_admin.setVisible(true);
+            lbl_admin.setText(String.valueOf(count));
+        }
         if (p.getSubjects().isEmpty()) {
             Multipurpose.db.get_professor_subjects(p.getID());
         }

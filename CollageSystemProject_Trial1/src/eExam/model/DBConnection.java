@@ -1,5 +1,6 @@
 package eExam.model;
 
+import eExam.controller.Admin_HomePage_Controller;
 import eExam.controller.Multipurpose;
 import eExam.controller.Professor_Add_Questions_To_Exam_Controller;
 import eExam.controller.Professor_Subject_Controller;
@@ -67,6 +68,7 @@ public class DBConnection implements DB {
             p.setAdmin(rs.getInt("admin"));
             p.setGender(rs.getString("gender"));
             p.setBirthDate(rs.getString("birth date"));
+            p.setStatus(rs.getInt("status"));
         } else {
             rs.next();
             //  Professor_HomePage_Controller.professor.setID(rs.getInt(1));
@@ -94,6 +96,14 @@ public class DBConnection implements DB {
                 "'" + password + "','" + gender + "','" + dob + "')";
         int rs = stmt.executeUpdate(sql);
         return rs;
+    }
+
+    @Override
+    public int get_account_request_count() throws SQLException {
+        String sql = "select Count(status) from professor where status = 0";
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        return rs.getInt(1);
     }
 
     /**
@@ -176,7 +186,7 @@ public class DBConnection implements DB {
 
     @Override
     public void get_questions_in_exam(int exam_id) throws SQLException {
-        String sql = "select * from questions where exam_id = " + exam_id + "";
+        String sql = "select * from questions where exam_id  = " + exam_id + "";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
@@ -192,6 +202,62 @@ public class DBConnection implements DB {
                 " `option_1` = '" + option_1 + "', `option_2` = '" + option_2 + "', `option_3` = '" + option_3 + "'," +
                 " `option_4` = '" + option_4 + "', `correct_answer` = '" + correct_answer + "', `grade` = '" + grade +
                 "' WHERE (`id` = '" + id + "') and (`exam_id` = '" + Multipurpose.examInUse.getID() + " ')";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_all_professors() throws SQLException {
+        String sql = "SELECT name from professor where status = 1";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Admin_HomePage_Controller.professorsOL.add(rs.getString("name"));
+        }
+    }
+
+    @Override
+    public void get_selected_professor_subjects(String name) throws SQLException {
+        String sql = "select name\n" +
+                "from subject\n" +
+                "where name not in\n" +
+                "      (select name\n" +
+                "       from subject s\n" +
+                "                join (select *\n" +
+                "                      from professor_subject\n" +
+                "                      where professor_id = (select id from professor where professor.name = '" + name + "')) ps\n" +
+                "                     on s.id = ps.subject_id)";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Admin_HomePage_Controller.subjectsOL.add(rs.getString("name"));
+        }
+    }
+
+    @Override
+    public void assign_subject_to_professor(String professor_name, String subject_name) throws SQLException {
+        String sql = "insert into professor_subject (professor_id, subject_id)\n" +
+                "values ((select id from professor where name = '" + professor_name + "'), " +
+                "(select id from subject where name = '" + subject_name + "'));";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_professors_request() throws SQLException {
+        String sql = "SELECT name from professor where status = 0";
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            Admin_HomePage_Controller.requestsOL.add(rs.getString("name"));
+        }
+    }
+
+    @Override
+    public void approve_professor_request(String name) throws SQLException {
+        String sql = "UPDATE professor SET status = 1 WHERE id = (select id from  (select id,name from professor)AS p where p.name = '" + name + "')";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void decline_professor_request(String name) throws SQLException {
+        String sql = "DELETE from professor where id = (select id from professor where name = '" + name + "'";
         int rs = stmt.executeUpdate(sql);
     }
 }

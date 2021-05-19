@@ -1,5 +1,6 @@
 package eExam.controller;
 
+import eExam.model.Professor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -29,12 +30,14 @@ import java.sql.SQLException;
 public class Login_Controller {
 
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Professor p = Professor.getInstance();
     @FXML
     private Label lbl_errormsg;
     @FXML
     private TextField tf_username;
     @FXML
     private PasswordField pf_password;
+
 
     public void press_login(ActionEvent e) throws IOException, SQLException {
         String name = tf_username.getText();
@@ -44,10 +47,12 @@ public class Login_Controller {
             if (!loggedIn) {
                 lbl_errormsg.setText("Wrong Username or Password!");
                 m.displayMessage("Error", null, "Wrong Username or Password!");
-            } else if (Multipurpose.userType.equals("student")) {
-                m.change_scene(e, "Student_HomePage");
-            } else {
+            } else if (Multipurpose.userType.equals("professor") && p.getStatus() == 1) {
                 m.change_scene(e, "Professor_HomePage");
+            } else if (Multipurpose.userType.equals("professor") && p.getStatus() == 0) {
+                m.displayMessage("Not Authorized!", null, "The Admin didn't approve your request yet!");
+            } else {
+                m.change_scene(e, "Student_HomePage");
             }
         }
     }

@@ -13,7 +13,9 @@ public class Professor {
     private int admin;
     private String gender;
     private String birthDate;
+    private int status;
     private final ArrayList<Subject> subjects = new ArrayList<>();
+
 
 
     private Professor() {
@@ -70,7 +72,12 @@ public class Professor {
         this.ID = ID;
     }
 
-    public int isAdmin() {
+
+    public ArrayList<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public int getAdmin() {
         return admin;
     }
 
@@ -78,8 +85,13 @@ public class Professor {
         this.admin = admin;
     }
 
-    public ArrayList<Subject> getSubjects() {
-        return subjects;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 

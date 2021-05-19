@@ -43,13 +43,20 @@ public class Multipurpose {
     public void navigation_handler(ActionEvent e, String page) throws IOException {
         String clicked = ((Button) e.getSource()).getText();
         Parent r;
-        if (clicked.equals("Home")) {
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-        } else if (clicked.equals("Logout")) {
-            Professor.getInstance().logout();
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
-        } else {
-            r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/" + page + ".fxml")));
+        switch (clicked) {
+            case "Admin":
+                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Admin_HomePage.fxml")));
+                break;
+            case "Logout":
+                Professor.getInstance().logout();
+                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
+                break;
+            case "Back":
+                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/" + page + ".fxml")));
+                break;
+            default:
+                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
+                break;
         }
         assert r != null;
         Scene scene = new Scene(r);

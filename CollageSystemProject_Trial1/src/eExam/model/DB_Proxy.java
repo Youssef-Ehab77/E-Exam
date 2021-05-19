@@ -26,6 +26,11 @@ public class DB_Proxy implements DB {
     }
 
     @Override
+    public int get_account_request_count() throws SQLException {
+        return real_db.get_account_request_count();
+    }
+
+    @Override
     public void get_professor_subjects(int id) throws SQLException {
         real_db.get_professor_subjects(id);
     }
@@ -63,6 +68,36 @@ public class DB_Proxy implements DB {
     @Override
     public void update_question_data(int id, int grade, String type, String question, String option_1, String option_2, String option_3, String option_4, String correct_answer) throws SQLException {
         real_db.update_question_data(id, grade, type, question, option_1, option_2, option_3, option_4, correct_answer);
+    }
+
+    @Override
+    public void get_all_professors() throws SQLException {
+        real_db.get_all_professors();
+    }
+
+    @Override
+    public void get_selected_professor_subjects(String name) throws SQLException {
+        real_db.get_selected_professor_subjects(name);
+    }
+
+    @Override
+    public void assign_subject_to_professor(String professor_name, String subject_name) throws SQLException {
+        real_db.assign_subject_to_professor(professor_name, subject_name);
+    }
+
+    @Override
+    public void get_professors_request() throws SQLException {
+        real_db.get_professors_request();
+    }
+
+    @Override
+    public void approve_professor_request(String name) throws SQLException {
+        real_db.approve_professor_request(name);
+    }
+
+    @Override
+    public void decline_professor_request(String name) throws SQLException {
+        real_db.decline_professor_request(name);
     }
 
 }
