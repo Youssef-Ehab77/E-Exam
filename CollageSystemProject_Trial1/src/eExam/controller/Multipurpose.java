@@ -15,12 +15,10 @@ import java.util.Objects;
 
 /**
  * Multipurpose class is for multipurpose stuff duh!
- * 1- We can from this class class some main static variables that will be needed throw out
+ * 1- We can from this class get access to some main static variables that will be needed throw out
  * the project.
  * <p>
- * 2- We also created an instance from every class we are going to use so we can call them from here.
- * <p>
- * 3- We also created some functions that will be called several time in different situations
+ * 2- We also created some functions that will be called several time in different situations
  * like changing the current scene or navigate throw the project's pages.
  */
 

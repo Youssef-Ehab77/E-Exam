@@ -83,6 +83,7 @@ public class Admin_HomePage_Controller {
         requestsOL.clear();
         cb_requests.getItems().clear();
         update_request_choice_box();
+        m.displayMessage("Done","User Approved!",null);
     }
 
     public void decline_request() throws SQLException {
@@ -90,6 +91,7 @@ public class Admin_HomePage_Controller {
         requestsOL.clear();
         cb_requests.getItems().clear();
         update_request_choice_box();
+        m.displayMessage("Done","User Deleted!",null);
     }
 
     public void clear_subject_list(MouseEvent event) {
