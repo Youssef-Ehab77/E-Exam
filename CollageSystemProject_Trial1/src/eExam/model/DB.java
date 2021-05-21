@@ -38,4 +38,20 @@ public interface DB {
 
     void decline_professor_request(String name) throws SQLException;
 
+    void get_departments() throws SQLException;
+
+    void get_levels() throws SQLException;
+
+    void add_new_department(String departmentName) throws SQLException;
+
+    void add_new_level(int departmentID, String levelName) throws SQLException;
+
+    void get_all_subjects() throws SQLException;
+
+    void get_all_department_name() throws SQLException;
+
+    void get_all_department_levels_names(String departmentName) throws SQLException;
+
+    void add_new_subject(String subjectName, String departmentName, String levelName) throws SQLException;
+
 }

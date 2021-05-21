@@ -6,6 +6,8 @@ public class Subject {
 
     private int ID;
     private String subjectName;
+    private int levelID;
+    private int departmentID;
     private final ArrayList<Exam> exams = new ArrayList<>();
 
     public Subject() {
@@ -15,6 +17,13 @@ public class Subject {
     public Subject(int ID, String subjectName) {
         this.ID = ID;
         this.subjectName = subjectName;
+    }
+
+    public Subject(int ID, String subjectName, int levelID, int departmentID) {
+        this.ID = ID;
+        this.subjectName = subjectName;
+        this.levelID = levelID;
+        this.departmentID = departmentID;
     }
 
     public void addExam(Exam exam) {
@@ -41,4 +50,21 @@ public class Subject {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    public int getLevelID() {
+        return levelID;
+    }
+
+    public void setLevelID(int levelID) {
+        this.levelID = levelID;
+    }
+
+    public int getDepartmentID() {
+        return departmentID;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
+    }
+
 }

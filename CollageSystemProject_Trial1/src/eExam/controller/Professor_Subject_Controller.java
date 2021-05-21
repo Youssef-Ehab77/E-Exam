@@ -39,12 +39,15 @@ import java.sql.SQLException;
 
 public class Professor_Subject_Controller {
 
-    private int index = -1;
     private final Multipurpose m = Multipurpose.getInstance();
     private final Professor p = Professor.getInstance();
     public static ObservableList<Student_Subjects> ol = FXCollections.observableArrayList();
+
+    private int index = -1;
     boolean studentGradeIsUpdated = false;
     private static String currentSubjectSelected = null;
+
+
     @FXML
     private Label lbl_subject_name;
     @FXML

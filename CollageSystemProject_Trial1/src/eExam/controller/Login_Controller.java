@@ -60,7 +60,7 @@ public class Login_Controller {
 
     //here we call this method to change the scene to the register page
     public void press_register(ActionEvent e) throws IOException {
-        m.change_scene(e, "Register");
+        m.change_scene(e, "Professor_Register");
     }
 
     //here this method returns us to the welcome page

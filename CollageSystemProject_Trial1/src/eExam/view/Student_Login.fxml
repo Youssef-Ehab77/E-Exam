@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #bbe9fa;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Login_Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #127db3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Login_Controller">
     <AnchorPane layoutX="150.0" layoutY="100.0" prefHeight="650.0" prefWidth="700.0" style="-fx-background-color: WHITE;">
-        <Button fx:id="btn_login" layoutX="200.0" layoutY="507.0" mnemonicParsing="false" onAction="#press_login" prefHeight="39.0" prefWidth="300.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" style="-fx-background-color: #82d3f1;" text="Login" textAlignment="CENTER" textFill="WHITE">
+        <Button fx:id="btn_login" layoutX="200.0" layoutY="507.0" mnemonicParsing="false" onAction="#press_login" prefHeight="39.0" prefWidth="300.0" scaleX="1.5" scaleY="1.5" scaleZ="1.5" style="-fx-background-color: #127db3;" text="Login" textAlignment="CENTER" textFill="WHITE">
             <font>
-                <Font name="Droid Sans Bold" size="20.0" />
+                <Font name="System Bold" size="20.0" />
             </font>
         </Button>
         <PasswordField fx:id="pf_password" layoutX="246.0" layoutY="423.0" prefHeight="30.0" prefWidth="250.0" promptText="Password" scaleX="1.5" scaleY="1.5" scaleZ="1.5" style="-fx-background-color: #f0f4f5;">

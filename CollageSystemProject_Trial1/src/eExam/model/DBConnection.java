@@ -1,9 +1,6 @@
 package eExam.model;
 
-import eExam.controller.Admin_HomePage_Controller;
-import eExam.controller.Multipurpose;
-import eExam.controller.Professor_Add_Questions_To_Exam_Controller;
-import eExam.controller.Professor_Subject_Controller;
+import eExam.controller.*;
 
 import java.sql.*;
 
@@ -210,7 +207,7 @@ public class DBConnection implements DB {
         String sql = "SELECT name from professor where status = 1";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            Admin_HomePage_Controller.professorsOL.add(rs.getString("name"));
+            Admin_Assign_Request_Controller.professorsOL.add(rs.getString("name"));
         }
     }
 
@@ -227,7 +224,7 @@ public class DBConnection implements DB {
                 "                     on s.id = ps.subject_id)";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            Admin_HomePage_Controller.subjectsOL.add(rs.getString("name"));
+            Admin_Assign_Request_Controller.subjectsOL.add(rs.getString("name"));
         }
     }
 
@@ -245,7 +242,7 @@ public class DBConnection implements DB {
         ResultSet rs = stmt.executeQuery(sql);
 
         while (rs.next()) {
-            Admin_HomePage_Controller.requestsOL.add(rs.getString("name"));
+            Admin_Assign_Request_Controller.requestsOL.add(rs.getString("name"));
         }
     }
 
@@ -258,6 +255,75 @@ public class DBConnection implements DB {
     @Override
     public void decline_professor_request(String name) throws SQLException {
         String sql = "DELETE from professor where id = (select id from professor where name = '" + name + "'";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_departments() throws SQLException {
+        String sql = "select * from department";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Admin_Departments_And_Levels_Controller.departmentOL.add(new Department(rs.getInt("id"), rs.getString("name")));
+        }
+    }
+
+    @Override
+    public void get_levels() throws SQLException {
+        String sql = "select * from level";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Admin_Departments_And_Levels_Controller.levelOL.add(new Level(rs.getInt("id"), rs.getInt("department_id"), rs.getString("name")));
+        }
+    }
+
+    @Override
+    public void add_new_department(String departmentName) throws SQLException {
+        String sql = "INSERT INTO department (name) VALUES ('" + departmentName + "')";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void add_new_level(int departmentID, String levelName) throws SQLException {
+        String sql = "INSERT INTO level (name, department_id) VALUES ('" + levelName + "','" + departmentID + "')";
+        int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_all_subjects() throws SQLException {
+        String sql = "SELECT * FROM subject";
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            Admin_Subjects_Handle_Controller.subjectOL.add(new Subject(rs.getInt("id"), rs.getString("name"),
+                    rs.getInt("level_id"), rs.getInt("department_id")));
+        }
+    }
+
+    @Override
+    public void get_all_department_name() throws SQLException {
+        String sql = "SELECT name FROM department";
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            Admin_Subjects_Handle_Controller.departmentOL.add(rs.getString("name"));
+        }
+    }
+
+    @Override
+    public void get_all_department_levels_names(String departmentName) throws SQLException {
+        String sql = "SELECT name FROM level where department_id = (SELECT id FROM department where name = '" + departmentName + "')";
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            Admin_Subjects_Handle_Controller.levelOL.add(rs.getString("name"));
+        }
+    }
+
+    @Override
+    public void add_new_subject(String subjectName, String departmentName, String levelName) throws SQLException {
+        String sql = "INSERT INTO subject (name, level_id, department_id) VALUES ('" + subjectName + "'," +
+                "(SELECT id FROM level WHERE level.name ='" + levelName + "')," +
+                "(SELECT id FROM department WHERE department.name = '" + departmentName + "'))";
         int rs = stmt.executeUpdate(sql);
     }
 }

@@ -100,4 +100,44 @@ public class DB_Proxy implements DB {
         real_db.decline_professor_request(name);
     }
 
+    @Override
+    public void get_departments() throws SQLException {
+        real_db.get_departments();
+    }
+
+    @Override
+    public void get_levels() throws SQLException {
+        real_db.get_levels();
+    }
+
+    @Override
+    public void add_new_department(String departmentName) throws SQLException {
+        real_db.add_new_department(departmentName);
+    }
+
+    @Override
+    public void add_new_level(int departmentID, String levelName) throws SQLException {
+        real_db.add_new_level(departmentID, levelName);
+    }
+
+    @Override
+    public void get_all_subjects() throws SQLException {
+        real_db.get_all_subjects();
+    }
+
+    @Override
+    public void get_all_department_name() throws SQLException {
+        real_db.get_all_department_name();
+    }
+
+    @Override
+    public void get_all_department_levels_names(String departmentName) throws SQLException {
+        real_db.get_all_department_levels_names(departmentName);
+    }
+
+    @Override
+    public void add_new_subject(String subjectName, String departmentName, String levelName) throws SQLException {
+        real_db.add_new_subject(subjectName, departmentName, levelName);
+    }
+
 }
