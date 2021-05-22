@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #127db3;"
+            stylesheets="@css/Buttons_HomePage.css" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="eExam.controller.Admin_HomePage_Controller">
+    <Label alignment="CENTER" layoutX="179.0" layoutY="66.0" text="Welcome To Admin Home Page"
+           textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Baskerville Old Face" size="48.0"/>
+        </font>
+    </Label>
+    <VBox alignment="CENTER" layoutX="271.0" layoutY="122.0" prefHeight="634.0" prefWidth="458.0" spacing="20.0"
+          style="-fx-background-color: White;">
+        <children>
+            <Button fx:id="btn_assign_request" alignment="CENTER" mnemonicParsing="false"
+                    onAction="#assign_request_press" text="Assign Subjects And Handle Requests"
+                    textAlignment="CENTER" wrapText="true"/>
+            <Button fx:id="btn_departments_levels" mnemonicParsing="false" onAction="#department_level_press"
+                    text="Departments And Levels"/>
+            <Button fx:id="btn_subjects" mnemonicParsing="false" onAction="#subject_press" text="Subjects"/>
+        </children>
+    </VBox>
+    <AnchorPane prefHeight="21.0" prefWidth="1000.0">
+        <Button id="normal_button" fx:id="btn_home" layoutX="138.0" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Home">
+            <graphic>
+                <ImageView fitHeight="18.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/homepage.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="normal_button" fx:id="btn_back" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Back">
+            <graphic>
+                <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/back.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="normal_button" fx:id="btn_logout" layoutX="866.0" layoutY="1.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Logout">
+            <graphic>
+                <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/logout.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button id="normal_button" fx:id="btn_admin" layoutX="278.0" mnemonicParsing="false" onAction="#navigation_handler" prefHeight="28.0" prefWidth="120.0" text="Admin" visible="false">
+            <graphic>
+                <ImageView fitHeight="17.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Images/admin.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Label fx:id="lbl_admin" alignment="CENTER" contentDisplay="CENTER" layoutX="381.0" layoutY="14.0" style="-fx-background-color: RED;" textAlignment="CENTER" textFill="WHITE" visible="false">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+            <padding>
+                <Insets left="2.0" right="4.0" />
+            </padding>
+        </Label>
+    </AnchorPane>
+</AnchorPane>
