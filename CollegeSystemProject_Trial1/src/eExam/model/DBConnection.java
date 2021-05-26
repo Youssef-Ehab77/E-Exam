@@ -3,6 +3,7 @@ package eExam.model;
 import eExam.controller.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnection implements DB {
 
@@ -98,10 +99,34 @@ public class DBConnection implements DB {
 
     @Override
     public int add_user_student(String name, String password, String gender, String dob, String department, String level) throws SQLException {
-        String sql = "insert into student(name,password,gender,birth_date,department_id,level_id) values('" + name + "'," +
+        String sqlAddNewUser = "insert into student(name,password,gender,birth_date,department_id,level_id) values('" + name + "'," +
                 "'" + password + "','" + gender + "','" + dob + "',(select id from department where name = '" + department + "')," +
                 "(select id from level where name = '" + level + "'))";
-        int rs = stmt.executeUpdate(sql);
+        int rs = stmt.executeUpdate(sqlAddNewUser);
+
+
+        String sqlGetAllDepartmentLevelSubjects = "select professor_id , subject_id " +
+                "from  mydb.subject s join mydb.professor_subject ps " +
+                "on s.id = ps.subject_id where level_id = (select id from level where level.name = '" + level + "')" +
+                " and department_id = (select id from department where department.name = '" + department + "') ; ";
+        ResultSet rs2 = stmt.executeQuery(sqlGetAllDepartmentLevelSubjects);
+        ArrayList<Integer> professorID = new ArrayList<Integer>();
+        ArrayList<Integer> subjectID = new ArrayList<Integer>();
+        while (rs2.next()) {
+            professorID.add(rs2.getInt("professor_id"));
+            subjectID.add(rs2.getInt("subject_id"));
+        }
+
+        int i = 0;
+        String sqlInsertNewStudentSubjects;
+        int rs3;
+        for (i = 0; i < professorID.size(); i++) {
+            sqlInsertNewStudentSubjects = "Insert into student_subject (student_id, subject_id, professor_id) " +
+                    "values  ((select id from student where name = '" + name + "')," +
+                    "'" + subjectID.get(i) + "','" + professorID.get(i) + "')";
+            rs3 = stmt.executeUpdate(sqlInsertNewStudentSubjects);
+        }
+
         return rs;
     }
 
@@ -223,15 +248,20 @@ public class DBConnection implements DB {
 
     @Override
     public void get_selected_professor_subjects(String name) throws SQLException {
-        String sql = "select name\n" +
-                "from subject\n" +
-                "where name not in\n" +
-                "      (select name\n" +
-                "       from subject s\n" +
-                "                join (select *\n" +
-                "                      from professor_subject\n" +
-                "                      where professor_id = (select id from professor where professor.name = '" + name + "')) ps\n" +
-                "                     on s.id = ps.subject_id)";
+        //select all the un assigned subjects for the current professor
+//        String sql = "select name\n" +
+//                "from subject\n" +
+//                "where name not in\n" +
+//                "      (select name\n" +
+//                "       from subject s\n" +
+//                "                join (select *\n" +
+//                "                      from professor_subject\n" +
+//                "                      where professor_id = (select id from professor where professor.name = '" + name + "')) ps\n" +
+//                "                     on s.id = ps.subject_id)";
+
+        // select all the un assigned subjects in general
+        String sql = "select name from mydb.subject where name not in " +
+                "(select name from mydb.subject s join mydb.professor_subject ps on s.id = ps.subject_id)";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             Admin_Assign_Request_Controller.subjectsOL.add(rs.getString("name"));
@@ -348,5 +378,28 @@ public class DBConnection implements DB {
                 "(SELECT id FROM level WHERE level.name ='" + levelName + "')," +
                 "(SELECT id FROM department WHERE department.name = '" + departmentName + "'))";
         int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_student_subject(int department, int level) throws SQLException {
+        //String sql = "SELECT id, name from  subject where level_id = '" + level + "' and department_id = '" + department + "'";
+        String sql = "SELECT id, name from subject s join student_subject ss on s.id = ss.subject_id where student_id = '" + s.getID() + "'" +
+                "and department_id = '" + department + "' and level_id = '" + level + "'";
+
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            s.addSubject(new Subject(rs.getInt("id"), rs.getString("name")));
+        }
+    }
+
+    public void get_subject_exam_student(int subject_id) throws SQLException {
+        String sql = "select id, name,grade,number_of_questions,start_time,end_time from exam where subject_id = " + subject_id + "";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Multipurpose.subjectInUse.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
+                    rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
+                    rs.getString("end_time")));
+        }
     }
 }

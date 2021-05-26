@@ -1,5 +1,7 @@
 package eExam.model;
 
+import eExam.controller.Multipurpose;
+
 import java.util.ArrayList;
 
 public class Student {
@@ -72,5 +74,16 @@ public class Student {
 
     public void setLevelID(int levelID) {
         this.levelID = levelID;
+    }
+
+    public void logout(){
+        ID = 0;
+        name = null;
+        password = null;
+        departmentID = 0;
+        levelID = 0;
+        subjects.clear();
+        Multipurpose.subjectInUse = null;
+        Multipurpose.examInUse = null;
     }
 }

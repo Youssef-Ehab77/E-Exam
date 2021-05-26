@@ -41,21 +41,37 @@ public class Multipurpose {
     public void navigation_handler(ActionEvent e, String page) throws IOException {
         String clicked = ((Button) e.getSource()).getText();
         Parent r;
-        switch (clicked) {
-            case "Admin":
-                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Admin_HomePage.fxml")));
-                break;
-            case "Logout":
-                Professor.getInstance().logout();
-                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
-                break;
-            case "Back":
-                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/" + page + ".fxml")));
-                break;
-            default:
-                r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
-                break;
+        if (Multipurpose.userType.equals("professor")) {
+            switch (clicked) {
+                case "Admin":
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Admin_HomePage.fxml")));
+                    break;
+                case "Logout":
+                    Professor.getInstance().logout();
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_Login.fxml")));
+                    break;
+                case "Back":
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/" + page + ".fxml")));
+                    break;
+                default:
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Professor_HomePage.fxml")));
+                    break;
+            }
+        } else {
+            switch (clicked) {
+                case "Logout":
+                    Student.getInstance().logout();
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Login.fxml")));
+                    break;
+                case "Back":
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/" + page + ".fxml")));
+                    break;
+                default:
+                    r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_HomePage_Subjects.fxml")));
+                    break;
+            }
         }
+
         assert r != null;
         Scene scene = new Scene(r);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

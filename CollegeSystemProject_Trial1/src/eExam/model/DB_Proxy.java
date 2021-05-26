@@ -145,4 +145,14 @@ public class DB_Proxy implements DB {
         real_db.add_new_subject(subjectName, departmentName, levelName);
     }
 
+    @Override
+    public void get_student_subject(int department, int level) throws SQLException {
+        real_db.get_student_subject(department, level);
+    }
+
+    @Override
+    public void get_subject_exam_student(int subject_id) throws SQLException {
+        real_db.get_subject_exam_student(subject_id);
+    }
+
 }

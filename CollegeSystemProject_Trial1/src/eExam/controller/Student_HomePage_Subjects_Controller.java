@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Student_HomePage_Controller {
+public class Student_HomePage_Subjects_Controller {
 
     private final Student s = Student.getInstance();
     private final Multipurpose m = Multipurpose.getInstance();
@@ -32,7 +32,7 @@ public class Student_HomePage_Controller {
         lbl_welcome.setText("Welcome " + s.getName());
 
         if (s.getSubjects().isEmpty()) {
-            Multipurpose.db.get_professor_subjects(s.getID());
+            Multipurpose.db.get_student_subject(s.getDepartmentID(),s.getLevelID());
         }
         for (Subject subject : s.getSubjects()) {
             Button btn = new Button();
@@ -59,7 +59,7 @@ public class Student_HomePage_Controller {
     }
 
     public void change_scene(Button e) throws IOException, SQLException {
-        Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Subject.fxml")));
+        Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Subject_Exams.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();
         stage.setScene(scene);
