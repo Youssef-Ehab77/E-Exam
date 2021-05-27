@@ -1,6 +1,7 @@
 package eExam.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public interface DB {
 
@@ -59,5 +60,7 @@ public interface DB {
     void get_student_subject(int department, int level) throws SQLException;
 
     void get_subject_exam_student(int subject_id) throws SQLException;
+
+    void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException;
 
 }

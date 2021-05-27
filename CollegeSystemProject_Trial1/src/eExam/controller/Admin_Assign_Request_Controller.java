@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class Admin_Assign_Request_Controller {
+public class Admin_Assign_Request_Controller{
 
     private final Multipurpose m = Multipurpose.getInstance();
     private final Professor p = Professor.getInstance();
@@ -106,6 +106,5 @@ public class Admin_Assign_Request_Controller {
         requestsOL.clear();
         m.navigation_handler(e, "Admin_HomePage");
     }
-
 
 }

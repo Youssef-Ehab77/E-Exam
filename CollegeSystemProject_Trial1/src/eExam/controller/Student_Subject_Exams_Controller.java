@@ -20,7 +20,7 @@ public class Student_Subject_Exams_Controller {
 
     private final Multipurpose m = Multipurpose.getInstance();
     private final Student s = Student.getInstance();
-    private int x_axis = 25, y_axis = 175;
+    private int x_axis = 25, y_axis = 100;
     @FXML
     private AnchorPane root;
     @FXML
@@ -29,7 +29,9 @@ public class Student_Subject_Exams_Controller {
 
 
     public void initialize() throws SQLException {
+
         lbl_welcome.setText("Exams for "+Multipurpose.subjectInUse.getSubjectName());
+
         if (Multipurpose.subjectInUse.getExams().isEmpty()) {
             Multipurpose.db.get_subject_exam_student(Multipurpose.subjectInUse.getID());
             current_subject = Multipurpose.subjectInUse.getSubjectName();
@@ -45,6 +47,7 @@ public class Student_Subject_Exams_Controller {
             btn.setId(exam.getName().trim());
             btn.setLayoutX(x_axis);
             btn.setLayoutY(y_axis);
+
             btn.setOnAction(e -> {
                 Multipurpose.examInUse = exam;
                 try {
@@ -53,6 +56,7 @@ public class Student_Subject_Exams_Controller {
                     ioException.printStackTrace();
                 }
             });
+
             root.getChildren().add(btn);
             if (x_axis < 675) {
                 x_axis += 325;
@@ -71,6 +75,6 @@ public class Student_Subject_Exams_Controller {
     }
 
     public void navigation_handler(ActionEvent e) throws IOException {
-        m.navigation_handler(e, "Student_HomePage");
+        m.navigation_handler(e, "Student_HomePage_Subjects");
     }
 }

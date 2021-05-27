@@ -1,6 +1,7 @@
 package eExam.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class DB_Proxy implements DB {
 
@@ -153,6 +154,11 @@ public class DB_Proxy implements DB {
     @Override
     public void get_subject_exam_student(int subject_id) throws SQLException {
         real_db.get_subject_exam_student(subject_id);
+    }
+
+    @Override
+    public void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
+        real_db.submit_exam(examID, studentID, answers);
     }
 
 }

@@ -4,6 +4,7 @@ import eExam.controller.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DBConnection implements DB {
 
@@ -220,11 +221,20 @@ public class DBConnection implements DB {
     public void get_questions_in_exam(int exam_id) throws SQLException {
         String sql = "select * from questions where exam_id  = " + exam_id + "";
         ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
-                    rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
-                    rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
-                    rs.getString("correct_answer")));
+        if (Multipurpose.userType.equals("professor")) {
+            while (rs.next()) {
+                Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
+                        rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
+                        rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
+                        rs.getString("correct_answer")));
+            }
+        } else if (Multipurpose.userType.equals("student")) {
+            while (rs.next()) {
+                Multipurpose.examInUse.addQuestions(new Questions(rs.getInt("id"), rs.getInt("grade"),
+                        rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
+                        rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
+                        rs.getString("correct_answer")));
+            }
         }
     }
 
@@ -401,5 +411,23 @@ public class DBConnection implements DB {
                     rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
                     rs.getString("end_time")));
         }
+    }
+
+    @Override
+    public void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
+        String sql1, sql2;
+        int rs1;
+        ResultSet rs2;
+
+        for (Integer qid : answers.keySet()) {
+            sql1 = "INSERT INTO student_questions_answer VALUES ('" + qid + "','" + examID + "','" + studentID + "','" + answers.get(qid) + "')";
+            rs1 = stmt.executeUpdate(sql1);
+        }
+        sql2 = "select sum(grade) as sum from mydb.student_questions_answer sqa join mydb.questions q on sqa.questions_id = q.id where sqa.student_id = '" + studentID + "'" +
+                "and sqa.student_answer = q.correct_answer and sqa.questions_exam_id = '" + examID + "'; ";
+        rs2 = stmt.executeQuery(sql2);
+        rs2.next();
+        System.out.println(rs2.getInt("sum"));
+
     }
 }
