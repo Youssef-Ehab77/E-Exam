@@ -101,7 +101,8 @@ public class Student_Exam_Controller {
             String value = answers.get(name);
             System.out.println(key + " " + value);
         }
-        Multipurpose.db.submit_exam(Multipurpose.examInUse.getID(), s.getID(), answers);
+        int result = Multipurpose.db.submit_exam(Multipurpose.examInUse.getID(), s.getID(), answers);
+        m.displayMessage("Exam is Over!", "Your Certified Grade is " + result + "/" + Multipurpose.examInUse.getGrade(), null);
     }
 
 

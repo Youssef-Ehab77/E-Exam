@@ -61,6 +61,6 @@ public interface DB {
 
     void get_subject_exam_student(int subject_id) throws SQLException;
 
-    void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException;
+    int submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException;
 
 }

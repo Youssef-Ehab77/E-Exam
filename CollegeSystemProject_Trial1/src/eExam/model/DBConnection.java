@@ -27,7 +27,7 @@ public class DBConnection implements DB {
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "gamd1998");
 
             //AWS cloud db
-            //con = DriverManager.getConnection("jdbc:mysql://database-1.ccpxmnqempna.us-east-2.rds.amazonaws.com:3306/project1", "admin", "gamd1998");
+            //Connection con = DriverManager.getConnection("jdbc:mysql://database-1.ccpxmnqempna.us-east-2.rds.amazonaws.com:3306/mydb", "admin", "gamd1998");
 
             stmt = con.createStatement();
         } catch (Exception e) {
@@ -414,20 +414,29 @@ public class DBConnection implements DB {
     }
 
     @Override
-    public void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
-        String sql1, sql2;
-        int rs1;
+    public int submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
+        String sql1, sql2, sql3;
+        int rs1, rs3;
         ResultSet rs2;
 
         for (Integer qid : answers.keySet()) {
             sql1 = "INSERT INTO student_questions_answer VALUES ('" + qid + "','" + examID + "','" + studentID + "','" + answers.get(qid) + "')";
-            rs1 = stmt.executeUpdate(sql1);
+            try {
+                rs1 = stmt.executeUpdate(sql1);
+            } catch (SQLIntegrityConstraintViolationException ignored) {
+                m.displayMessage("Note!", "You already answered this exam once so your grade will not be changed!", null);
+                break;
+            }
         }
         sql2 = "select sum(grade) as sum from mydb.student_questions_answer sqa join mydb.questions q on sqa.questions_id = q.id where sqa.student_id = '" + studentID + "'" +
                 "and sqa.student_answer = q.correct_answer and sqa.questions_exam_id = '" + examID + "'; ";
         rs2 = stmt.executeQuery(sql2);
         rs2.next();
-        System.out.println(rs2.getInt("sum"));
+        int sum = rs2.getInt("sum");
+        sql3 = "update mydb.student_subject set 7th = '" + sum + "' where mydb.student_subject.student_id = '" + studentID + "' and " +
+                "mydb.student_subject.subject_id = '" + Multipurpose.subjectInUse.getID() + "'";
+        rs3 = stmt.executeUpdate(sql3);
+        return sum;
 
     }
 }

@@ -157,8 +157,8 @@ public class DB_Proxy implements DB {
     }
 
     @Override
-    public void submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
-        real_db.submit_exam(examID, studentID, answers);
+    public int submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
+       return real_db.submit_exam(examID, studentID, answers);
     }
 
 }
