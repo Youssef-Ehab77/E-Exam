@@ -161,4 +161,9 @@ public class DB_Proxy implements DB {
        return real_db.submit_exam(examID, studentID, answers);
     }
 
+    @Override
+    public int exam_time() throws SQLException {
+        return real_db.exam_time();
+    }
+
 }

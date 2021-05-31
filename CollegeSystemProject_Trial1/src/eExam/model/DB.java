@@ -63,4 +63,5 @@ public interface DB {
 
     int submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException;
 
+    int exam_time() throws SQLException;
 }

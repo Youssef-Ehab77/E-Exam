@@ -76,7 +76,7 @@ public class Student {
         this.levelID = levelID;
     }
 
-    public void logout(){
+    public void logout() {
         ID = 0;
         name = null;
         password = null;

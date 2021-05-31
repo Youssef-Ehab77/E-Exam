@@ -3,6 +3,8 @@ package eExam.model;
 import eExam.controller.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -404,7 +406,10 @@ public class DBConnection implements DB {
     }
 
     public void get_subject_exam_student(int subject_id) throws SQLException {
-        String sql = "select id, name,grade,number_of_questions,start_time,end_time from exam where subject_id = " + subject_id + "";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime t = LocalDateTime.now();
+        String sql = "select id, name,grade,number_of_questions,start_time,end_time from exam where subject_id = " + subject_id + " and" +
+                " CAST('" + dtf.format(t) + "' as datetime) >= start_time and CAST('" + dtf.format(t) + "' as datetime) <= end_time ";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             Multipurpose.subjectInUse.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
@@ -424,7 +429,6 @@ public class DBConnection implements DB {
             try {
                 rs1 = stmt.executeUpdate(sql1);
             } catch (SQLIntegrityConstraintViolationException ignored) {
-                m.displayMessage("Note!", "You already answered this exam once so your grade will not be changed!", null);
                 break;
             }
         }
@@ -438,5 +442,15 @@ public class DBConnection implements DB {
         rs3 = stmt.executeUpdate(sql3);
         return sum;
 
+    }
+
+    @Override
+    public int exam_time() throws SQLException {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime t = LocalDateTime.now();
+        String sql = "select time_to_sec(timediff(end_time, '" + dtf.format(t) + "')) as t from mydb.exam where id = '" + Multipurpose.examInUse.getID() + "'";
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        return rs.getInt("t");
     }
 }

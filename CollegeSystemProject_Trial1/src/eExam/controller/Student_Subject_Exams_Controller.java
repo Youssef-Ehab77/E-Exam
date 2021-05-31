@@ -35,7 +35,7 @@ public class Student_Subject_Exams_Controller {
         if (Multipurpose.subjectInUse.getExams().isEmpty()) {
             Multipurpose.db.get_subject_exam_student(Multipurpose.subjectInUse.getID());
             current_subject = Multipurpose.subjectInUse.getSubjectName();
-        } else if (!Multipurpose.subjectInUse.getExams().isEmpty() && !current_subject.equals(Multipurpose.subjectInUse.getSubjectName())) {
+        } else if (!Multipurpose.subjectInUse.getExams().isEmpty() ) { //&& !current_subject.equals(Multipurpose.subjectInUse.getSubjectName())
             Multipurpose.subjectInUse.getExams().clear();
             Multipurpose.db.get_subject_exam_student(Multipurpose.subjectInUse.getID());
             current_subject = Multipurpose.subjectInUse.getSubjectName();

@@ -87,5 +87,15 @@
          <Font name="Arabic Typesetting" size="31.0" />
       </font>
    </RadioButton>
+   <Label fx:id="lbl_time" alignment="CENTER" layoutX="6.0" layoutY="104.0" prefHeight="30.0" prefWidth="227.0" style="-fx-background-color: Black;" textAlignment="CENTER" textFill="#40d959">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Label fx:id="lbl_note" layoutX="104.0" layoutY="152.0" style="-fx-background-color: White;" text="NOTE: The Exam Will be submitted automatically when the time is up and all your answers after the time will be ignored" textFill="#ff0004">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Label>
 
 </AnchorPane>
