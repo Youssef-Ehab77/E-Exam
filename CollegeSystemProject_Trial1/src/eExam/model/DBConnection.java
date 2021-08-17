@@ -25,11 +25,11 @@ public class DBConnection implements DB {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             //local db
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "gamd1998");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "gamd1998");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "************");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "********");
 
             //AWS cloud db
-            //Connection con = DriverManager.getConnection(***,**,**);
+
 
             stmt = con.createStatement();
         } catch (Exception e) {
