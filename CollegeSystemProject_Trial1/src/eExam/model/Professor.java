@@ -105,6 +105,7 @@ public class Professor {
         subjects.clear();
         Multipurpose.subjectInUse = null;
         Multipurpose.examInUse = null;
+        Multipurpose.examAdded = false;
     }
 
 

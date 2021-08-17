@@ -1,7 +1,7 @@
 package eExam.controller;
 
+import eExam.model.Exam;
 import eExam.model.Student;
-import eExam.model.Subject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,38 +16,47 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Student_HomePage_Controller {
+public class Student_Subject_Exams_Controller {
 
-    private final Student s = Student.getInstance();
     private final Multipurpose m = Multipurpose.getInstance();
+    private final Student s = Student.getInstance();
     private int x_axis = 25, y_axis = 100;
-
-    @FXML
-    private Label lbl_welcome;
     @FXML
     private AnchorPane root;
+    @FXML
+    private Label lbl_welcome;
+    private static String current_subject = null;
 
 
     public void initialize() throws SQLException {
-        lbl_welcome.setText("Welcome " + s.getName());
 
-        if (s.getSubjects().isEmpty()) {
-            Multipurpose.db.get_professor_subjects(s.getID());
+        lbl_welcome.setText("Exams for "+Multipurpose.subjectInUse.getSubjectName());
+
+        if (Multipurpose.subjectInUse.getExams().isEmpty()) {
+            Multipurpose.db.get_subject_exam_student(Multipurpose.subjectInUse.getID());
+            current_subject = Multipurpose.subjectInUse.getSubjectName();
+        } else if (!Multipurpose.subjectInUse.getExams().isEmpty() ) { //&& !current_subject.equals(Multipurpose.subjectInUse.getSubjectName())
+            Multipurpose.subjectInUse.getExams().clear();
+            Multipurpose.db.get_subject_exam_student(Multipurpose.subjectInUse.getID());
+            current_subject = Multipurpose.subjectInUse.getSubjectName();
         }
-        for (Subject subject : s.getSubjects()) {
+
+        for (Exam exam : Multipurpose.subjectInUse.getExams()) {
             Button btn = new Button();
-            btn.setText(subject.getSubjectName());
-            btn.setId(subject.getSubjectName());
+            btn.setText(exam.getName());
+            btn.setId(exam.getName().trim());
             btn.setLayoutX(x_axis);
             btn.setLayoutY(y_axis);
+
             btn.setOnAction(e -> {
-                Multipurpose.subjectInUse = subject;
+                Multipurpose.examInUse = exam;
                 try {
                     change_scene(btn);
                 } catch (IOException | SQLException ioException) {
                     ioException.printStackTrace();
                 }
             });
+
             root.getChildren().add(btn);
             if (x_axis < 675) {
                 x_axis += 325;
@@ -59,14 +68,13 @@ public class Student_HomePage_Controller {
     }
 
     public void change_scene(Button e) throws IOException, SQLException {
-        Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Subject.fxml")));
+        Parent r = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..//view/Student_Exam.fxml")));
         Scene scene = new Scene(r);
         Stage stage = (Stage) e.getScene().getWindow();
         stage.setScene(scene);
     }
 
     public void navigation_handler(ActionEvent e) throws IOException {
-        m.navigation_handler(e, "Student_HomePage");
+        m.navigation_handler(e, "Student_HomePage_Subjects");
     }
 }
-

@@ -89,14 +89,14 @@ public class Professor_Add_Questions_To_Exam_Controller {
         if (observableList.isEmpty()) {
             Multipurpose.db.get_questions_in_exam(Multipurpose.examInUse.getID());
             currentExamSelected = Multipurpose.examInUse.getName();
-        } else if (examQuestionIsUpdated && currentExamSelected.equals(Multipurpose.examInUse)) {
-            examQuestionIsUpdated = false;
-            observableList.clear();
-            Multipurpose.db.get_questions_in_exam(Multipurpose.examInUse.getID());
-        } else if (!currentExamSelected.equals(Multipurpose.examInUse)) {
+        }  else if (!currentExamSelected.equals(Multipurpose.examInUse)) {
             observableList.clear();
             Multipurpose.db.get_questions_in_exam(Multipurpose.examInUse.getID());
             currentExamSelected = Multipurpose.examInUse.getName();
+        }else if (examQuestionIsUpdated) {
+            examQuestionIsUpdated = false;
+            observableList.clear();
+            Multipurpose.db.get_questions_in_exam(Multipurpose.examInUse.getID());
         }
         table_view.setItems(observableList);
     }

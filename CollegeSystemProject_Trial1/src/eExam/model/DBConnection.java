@@ -3,6 +3,10 @@ package eExam.model;
 import eExam.controller.*;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DBConnection implements DB {
 
@@ -25,7 +29,7 @@ public class DBConnection implements DB {
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "********");
 
             //AWS cloud db
-            //con = DriverManager.getConnection("jdbc:mysql://database-1.ccpxmnqempna.us-east-2.rds.amazonaws.com:3306/project1", "***********", "****************");
+
 
             stmt = con.createStatement();
         } catch (Exception e) {
@@ -98,10 +102,34 @@ public class DBConnection implements DB {
 
     @Override
     public int add_user_student(String name, String password, String gender, String dob, String department, String level) throws SQLException {
-        String sql = "insert into student(name,password,gender,birth_date,department_id,level_id) values('" + name + "'," +
+        String sqlAddNewUser = "insert into student(name,password,gender,birth_date,department_id,level_id) values('" + name + "'," +
                 "'" + password + "','" + gender + "','" + dob + "',(select id from department where name = '" + department + "')," +
                 "(select id from level where name = '" + level + "'))";
-        int rs = stmt.executeUpdate(sql);
+        int rs = stmt.executeUpdate(sqlAddNewUser);
+
+
+        String sqlGetAllDepartmentLevelSubjects = "select professor_id , subject_id " +
+                "from  mydb.subject s join mydb.professor_subject ps " +
+                "on s.id = ps.subject_id where level_id = (select id from level where level.name = '" + level + "')" +
+                " and department_id = (select id from department where department.name = '" + department + "') ; ";
+        ResultSet rs2 = stmt.executeQuery(sqlGetAllDepartmentLevelSubjects);
+        ArrayList<Integer> professorID = new ArrayList<Integer>();
+        ArrayList<Integer> subjectID = new ArrayList<Integer>();
+        while (rs2.next()) {
+            professorID.add(rs2.getInt("professor_id"));
+            subjectID.add(rs2.getInt("subject_id"));
+        }
+
+        int i = 0;
+        String sqlInsertNewStudentSubjects;
+        int rs3;
+        for (i = 0; i < professorID.size(); i++) {
+            sqlInsertNewStudentSubjects = "Insert into student_subject (student_id, subject_id, professor_id) " +
+                    "values  ((select id from student where name = '" + name + "')," +
+                    "'" + subjectID.get(i) + "','" + professorID.get(i) + "')";
+            rs3 = stmt.executeUpdate(sqlInsertNewStudentSubjects);
+        }
+
         return rs;
     }
 
@@ -195,11 +223,20 @@ public class DBConnection implements DB {
     public void get_questions_in_exam(int exam_id) throws SQLException {
         String sql = "select * from questions where exam_id  = " + exam_id + "";
         ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
-                    rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
-                    rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
-                    rs.getString("correct_answer")));
+        if (Multipurpose.userType.equals("professor")) {
+            while (rs.next()) {
+                Professor_Add_Questions_To_Exam_Controller.observableList.add(new Questions(rs.getInt("id"), rs.getInt("grade"),
+                        rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
+                        rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
+                        rs.getString("correct_answer")));
+            }
+        } else if (Multipurpose.userType.equals("student")) {
+            while (rs.next()) {
+                Multipurpose.examInUse.addQuestions(new Questions(rs.getInt("id"), rs.getInt("grade"),
+                        rs.getString("type"), rs.getString("question"), rs.getString("option_1"),
+                        rs.getString("option_2"), rs.getString("option_3"), rs.getString("option_4"),
+                        rs.getString("correct_answer")));
+            }
         }
     }
 
@@ -223,15 +260,20 @@ public class DBConnection implements DB {
 
     @Override
     public void get_selected_professor_subjects(String name) throws SQLException {
-        String sql = "select name\n" +
-                "from subject\n" +
-                "where name not in\n" +
-                "      (select name\n" +
-                "       from subject s\n" +
-                "                join (select *\n" +
-                "                      from professor_subject\n" +
-                "                      where professor_id = (select id from professor where professor.name = '" + name + "')) ps\n" +
-                "                     on s.id = ps.subject_id)";
+        //select all the un assigned subjects for the current professor
+//        String sql = "select name\n" +
+//                "from subject\n" +
+//                "where name not in\n" +
+//                "      (select name\n" +
+//                "       from subject s\n" +
+//                "                join (select *\n" +
+//                "                      from professor_subject\n" +
+//                "                      where professor_id = (select id from professor where professor.name = '" + name + "')) ps\n" +
+//                "                     on s.id = ps.subject_id)";
+
+        // select all the un assigned subjects in general
+        String sql = "select name from mydb.subject where name not in " +
+                "(select name from mydb.subject s join mydb.professor_subject ps on s.id = ps.subject_id)";
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             Admin_Assign_Request_Controller.subjectsOL.add(rs.getString("name"));
@@ -348,5 +390,67 @@ public class DBConnection implements DB {
                 "(SELECT id FROM level WHERE level.name ='" + levelName + "')," +
                 "(SELECT id FROM department WHERE department.name = '" + departmentName + "'))";
         int rs = stmt.executeUpdate(sql);
+    }
+
+    @Override
+    public void get_student_subject(int department, int level) throws SQLException {
+        //String sql = "SELECT id, name from  subject where level_id = '" + level + "' and department_id = '" + department + "'";
+        String sql = "SELECT id, name from subject s join student_subject ss on s.id = ss.subject_id where student_id = '" + s.getID() + "'" +
+                "and department_id = '" + department + "' and level_id = '" + level + "'";
+
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            s.addSubject(new Subject(rs.getInt("id"), rs.getString("name")));
+        }
+    }
+
+    public void get_subject_exam_student(int subject_id) throws SQLException {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime t = LocalDateTime.now();
+        String sql = "select id, name,grade,number_of_questions,start_time,end_time from exam where subject_id = " + subject_id + " and" +
+                " CAST('" + dtf.format(t) + "' as datetime) >= start_time and CAST('" + dtf.format(t) + "' as datetime) <= end_time ";
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            Multipurpose.subjectInUse.addExam(new Exam(rs.getInt("id"), rs.getString("name"),
+                    rs.getInt("grade"), rs.getInt("number_of_questions"), rs.getString("start_time"),
+                    rs.getString("end_time")));
+        }
+    }
+
+    @Override
+    public int submit_exam(int examID, int studentID, HashMap<Integer, String> answers) throws SQLException {
+        String sql1, sql2, sql3;
+        int rs1, rs3;
+        ResultSet rs2;
+
+        for (Integer qid : answers.keySet()) {
+            sql1 = "INSERT INTO student_questions_answer VALUES ('" + qid + "','" + examID + "','" + studentID + "','" + answers.get(qid) + "')";
+            try {
+                rs1 = stmt.executeUpdate(sql1);
+            } catch (SQLIntegrityConstraintViolationException ignored) {
+                break;
+            }
+        }
+        sql2 = "select sum(grade) as sum from mydb.student_questions_answer sqa join mydb.questions q on sqa.questions_id = q.id where sqa.student_id = '" + studentID + "'" +
+                "and sqa.student_answer = q.correct_answer and sqa.questions_exam_id = '" + examID + "'; ";
+        rs2 = stmt.executeQuery(sql2);
+        rs2.next();
+        int sum = rs2.getInt("sum");
+        sql3 = "update mydb.student_subject set 7th = '" + sum + "' where mydb.student_subject.student_id = '" + studentID + "' and " +
+                "mydb.student_subject.subject_id = '" + Multipurpose.subjectInUse.getID() + "'";
+        rs3 = stmt.executeUpdate(sql3);
+        return sum;
+
+    }
+
+    @Override
+    public int exam_time() throws SQLException {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime t = LocalDateTime.now();
+        String sql = "select time_to_sec(timediff(end_time, '" + dtf.format(t) + "')) as t from mydb.exam where id = '" + Multipurpose.examInUse.getID() + "'";
+        ResultSet rs = stmt.executeQuery(sql);
+        rs.next();
+        return rs.getInt("t");
     }
 }

@@ -52,7 +52,7 @@ public class Login_Controller {
             } else if (Multipurpose.userType.equals("professor") && p.getStatus() == 0) {
                 m.displayMessage("Not Authorized!", null, "The Admin didn't approve your request yet!");
             } else {
-                m.change_scene(e, "Student_HomePage");
+                m.change_scene(e, "Student_HomePage_Subjects");
             }
         }
     }

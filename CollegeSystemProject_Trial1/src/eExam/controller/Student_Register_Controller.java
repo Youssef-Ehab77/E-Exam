@@ -63,7 +63,7 @@ public class Student_Register_Controller {
     }
 
     public void press_signup(ActionEvent e) throws SQLException {
-        String dob= null, department, level= null;
+        String dob = null, department, level = null;
         String username = tf_username.getText();
         String password = pf_password.getText();
         String confirmPassword = pf_confirm_password.getText();

@@ -89,7 +89,7 @@ public class Admin_Subjects_Handle_Controller {
         if (tf_subject_name.getText() != null && cb_level.getValue() != null && cb_department.getValue() != null) {
             Multipurpose.db.add_new_subject(tf_subject_name.getText(), cb_department.getValue().toString(), cb_level.getValue().toString());
             tf_subject_name.clear();
-            cb_department.getItems().clear();
+            //cb_department.getItems().clear();
             cb_level.getItems().clear();
             currentDepartmentSelected = "";
             addedSubject = true;

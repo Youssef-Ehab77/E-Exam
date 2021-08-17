@@ -11,7 +11,7 @@ public class Exam {
     private String start_time, end_time;
     private final ArrayList<Questions> questions = new ArrayList<>();
 
-    public Exam(){
+    public Exam() {
 
     }
 
@@ -32,6 +32,13 @@ public class Exam {
         this.end_time = end_time;
     }
 
+    public void addQuestions(Questions question) {
+        this.questions.add(question);
+    }
+
+    public ArrayList<Questions> getQuestions() {
+        return questions;
+    }
 
     public int getGrade() {
         return grade;
@@ -81,4 +88,6 @@ public class Exam {
     public void setNumberOfQuestions(int numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
     }
+
+
 }
