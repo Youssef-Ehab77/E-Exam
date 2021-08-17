@@ -5,7 +5,6 @@ import eExam.model.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -60,14 +59,11 @@ public class Student_Exam_Controller {
         final int[] sec = {Multipurpose.db.exam_time()};
         Timeline tl = new Timeline(
                 new KeyFrame(Duration.seconds(1),
-                        new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                lbl_time.setText(String.valueOf(sec[0]) + " Seconds remaining");
-                                sec[0]--;
-                                //  LocalTime time = LocalTime.now(zone1);
-                                //lbl_time.setText(String.valueOf(time.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME)));
-                            }
+                        event -> {
+                            lbl_time.setText(String.valueOf(sec[0]) + " Seconds remaining");
+                            sec[0]--;
+                            //  LocalTime time = LocalTime.now(zone1);
+                            //lbl_time.setText(String.valueOf(time.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME)));
                         }));
         tl.setCycleCount(sec[0]);
         tl.play();

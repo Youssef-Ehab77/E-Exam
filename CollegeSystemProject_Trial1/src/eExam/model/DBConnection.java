@@ -29,7 +29,7 @@ public class DBConnection implements DB {
             //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sw_test1", "root", "gamd1998");
 
             //AWS cloud db
-            //Connection con = DriverManager.getConnection("jdbc:mysql://database-1.ccpxmnqempna.us-east-2.rds.amazonaws.com:3306/mydb", "admin", "gamd1998");
+            //Connection con = DriverManager.getConnection(***,**,**);
 
             stmt = con.createStatement();
         } catch (Exception e) {
